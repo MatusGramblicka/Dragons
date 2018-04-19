@@ -1,0 +1,21 @@
+c:\users\slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\bin\Debug\Dragons2.exe.config
+c:\users\slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\bin\Debug\Dragons2.exe
+c:\users\slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\bin\Debug\Dragons2.pdb
+c:\users\slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.Properties.Resources.resources
+c:\users\slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.csproj.GenerateResource.Cache
+c:\users\slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.exe
+c:\users\slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.pdb
+D:\veci\Dragons2\Dragons2\bin\Debug\Dragons2.exe.config
+D:\veci\Dragons2\Dragons2\bin\Debug\Dragons2.exe
+D:\veci\Dragons2\Dragons2\bin\Debug\Dragons2.pdb
+D:\veci\Dragons2\Dragons2\obj\Debug\Dragons2.csprojResolveAssemblyReference.cache
+D:\veci\Dragons2\Dragons2\obj\Debug\Dragons2.Form1.resources
+D:\veci\Dragons2\Dragons2\obj\Debug\Dragons2.Properties.Resources.resources
+D:\veci\Dragons2\Dragons2\obj\Debug\Dragons2.csproj.GenerateResource.Cache
+D:\veci\Dragons2\Dragons2\obj\Debug\Dragons2.exe
+D:\veci\Dragons2\Dragons2\obj\Debug\Dragons2.pdb
+C:\Users\Slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.csproj.CoreCompileInputs.cache
+C:\Users\Slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.Rotation.resources
+C:\Users\Slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.PlayersCount.resources
+C:\Users\Slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.csprojResolveAssemblyReference.cache
+C:\Users\Slayer1\documents\visual studio 2017\Projects\Dragons2\Dragons2\obj\Debug\Dragons2.Form1.resources
