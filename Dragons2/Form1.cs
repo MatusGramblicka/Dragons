@@ -452,7 +452,6 @@ namespace Dragons2
                 DataGridViewImageCell cellPlayerCardsInput = (DataGridViewImageCell)dgvPlayerCards.Rows[row].Cells[column];
 
                 string cardname = players[playerIndex].playersCards[i];
-
                
                 string fileName = stringDeckCards + cardname + ".png";
                 Image imageInput = Image.FromFile(fileName);
