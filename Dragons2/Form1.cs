@@ -1709,9 +1709,9 @@ namespace Dragons2
 
 
 
-        private char[,,] GetColorMap()
+        private string[,] GetColorMap()
         {
-            char[,,] colorSet = new char[dgvPlayField.RowCount, dgvPlayField.ColumnCount,4];
+            string[,] colorSet = new string[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
 
             for(int row = 0; row < dgvPlayField.RowCount; row++)       // set tag property to all blanc card
             {
@@ -1721,19 +1721,16 @@ namespace Dragons2
 
                     if((string)cellPlayerCardsInput.Tag == BlancCardString /*|| (string)cellPlayerCardsInput.Tag != silverDragonString || (string)cellPlayerCardsInput.Tag != colorfulDragonString*/)
                     {
-                        colorSet[row, column,0] = 'b';
+                        colorSet[row, column] = "b";
                     }
                     else
                     {
-                        string carName = (string)cellPlayerCardsInput.Tag;
+                        string cardName = (string)cellPlayerCardsInput.Tag;
 
-                        char[] color = new char[4];
-
-                        color = GlobalMethods.splitCardColor(carName);
-
-                        for(int i = 0; i < color.Length; i++)
-                            colorSet[row, column,i] = color[i];
-
+                        if (cardName[0] == 's' || cardName[0] == 'a')     // silver dragon card or action card => there are on the sme place in the middle of playfield
+                            colorSet[row, column] = cardName;
+                        else
+                            colorSet[row, column] = cardName.Substring(1, 4);
                     }
                 }
             }
