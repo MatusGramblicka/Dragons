@@ -450,15 +450,15 @@ namespace Dragons2
             int playersCardsCount = players[playerIndex].playersCards.Count;
             for(int i = 0; i < playersCardsCount; i++)
             {
+                Image imageInput = null;
                 int row = playerCardsRow;
                 int column = playerCardsColumn;
                 
                 DataGridViewImageCell cellPlayerCardsInput = (DataGridViewImageCell)dgvPlayerCards.Rows[row].Cells[column];
 
                 string cardname = players[playerIndex].playersCards[i];
-               
-                string fileName = stringDeckCards + cardname + ".png";
-                Image imageInput = Image.FromFile(fileName);
+
+                imageInput = RotateToOriginal(cardname);                
 
                 cellPlayerCardsInput.ImageLayout = DataGridViewImageCellLayout.Stretch;
                 cellPlayerCardsInput.Value = imageInput;
@@ -467,6 +467,44 @@ namespace Dragons2
 
                 playerCardsRow = GridControl.recomputeRow(row, column);
                 playerCardsColumn = GridControl.recomputeColumn(column);
+            }
+        }
+
+        /// <summary>
+        /// When was card rotated in player´s cards, it must be rotate back in order to find card in file folder
+        /// </summary>
+        /// <param name="cardname"></param>
+        /// <returns></returns>
+        private Image RotateToOriginal(string cardname)
+        {
+            Image imageInput = null;
+            string fileName = stringDeckCards + cardname + ".png";
+
+            if(verifyCardPresentInFileFolder(fileName))
+            {
+                imageInput = Image.FromFile(fileName);
+            }
+            else
+            {
+                cardname = GlobalMethods.rotateColorsInCardName(cardname);
+
+                string fileNameRotatedToOriginal = stringDeckCards + cardname + ".png";
+                imageInput = Image.FromFile(fileNameRotatedToOriginal);
+            }
+
+            return imageInput
+        }
+
+        private bool verifyCardPresentInFileFolder(string fileName)
+        {
+            try
+            {              
+                Image imageInput = Image.FromFile(fileName);
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
             }
         }
 

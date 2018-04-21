@@ -24,7 +24,7 @@ namespace Dragons2
             return oldTag = firstLetterCardNumber + oldTag;
         }
 
-        private static string Reverse(string s)
+        private static string Reverse(string s) // https://stackoverflow.com/questions/228038/best-way-to-reverse-a-string?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
         {
             char[] charArray = s.ToCharArray();
             Array.Reverse(charArray);
