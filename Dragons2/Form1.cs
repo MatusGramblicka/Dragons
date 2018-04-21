@@ -355,6 +355,10 @@ namespace Dragons2
             FirstPhase();
 
             successPlacingCardOnPlayGround = false;
+
+
+
+            GetColorMap();
         }
 
         private void HidePreviousPlayerDragonCard(int playerIndex)
@@ -1700,6 +1704,41 @@ namespace Dragons2
         public void UpgradeNumberOfPlayersLabel(int count)
         {
             label3.Text = count.ToString();
+        }
+
+
+
+
+        private char[,,] GetColorMap()
+        {
+            char[,,] colorSet = new char[dgvPlayField.RowCount, dgvPlayField.ColumnCount,4];
+
+            for(int row = 0; row < dgvPlayField.RowCount; row++)       // set tag property to all blanc card
+            {
+                for(int column = 0; column < dgvPlayField.ColumnCount; column++)
+                {
+                    DataGridViewImageCell cellPlayerCardsInput = (DataGridViewImageCell)dgvPlayField.Rows[row].Cells[column];
+
+                    if((string)cellPlayerCardsInput.Tag == BlancCardString /*|| (string)cellPlayerCardsInput.Tag != silverDragonString || (string)cellPlayerCardsInput.Tag != colorfulDragonString*/)
+                    {
+                        colorSet[row, column,0] = 'b';
+                    }
+                    else
+                    {
+                        string carName = (string)cellPlayerCardsInput.Tag;
+
+                        char[] color = new char[4];
+
+                        color = GlobalMethods.splitCardColor(carName);
+
+                        for(int i = 0; i < color.Length; i++)
+                            colorSet[row, column,i] = color[i];
+
+                    }
+                }
+            }
+
+            return colorSet;
         }
     }      
 }
