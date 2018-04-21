@@ -458,7 +458,7 @@ namespace Dragons2
 
                 string cardname = players[playerIndex].playersCards[i];
 
-                imageInput = RotateToOriginal(cardname);                
+                imageInput = RotateToOriginal(ref cardname);                
 
                 cellPlayerCardsInput.ImageLayout = DataGridViewImageCellLayout.Stretch;
                 cellPlayerCardsInput.Value = imageInput;
@@ -475,7 +475,7 @@ namespace Dragons2
         /// </summary>
         /// <param name="cardname"></param>
         /// <returns></returns>
-        private Image RotateToOriginal(string cardname)
+        private Image RotateToOriginal(ref string cardname)
         {
             Image imageInput = null;
             string fileName = stringDeckCards + cardname + ".png";
@@ -492,7 +492,7 @@ namespace Dragons2
                 imageInput = Image.FromFile(fileNameRotatedToOriginal);
             }
 
-            return imageInput
+            return imageInput;
         }
 
         private bool verifyCardPresentInFileFolder(string fileName)
@@ -1243,8 +1243,8 @@ namespace Dragons2
                 playerCardsColumn = GridControl.recomputeColumn(column);
                              
 
-                // if ...
-                SecondPhase();
+                if(cardsToTakeFromDeck < 2 )
+                    SecondPhase();
 
             }
 
