@@ -358,9 +358,21 @@ namespace Dragons2
 
 
 
-            GetColorMap();
-        }
+            string[,] colorSet = GetColorMap();
 
+           // CountDragonColorsOnPlayField(colorSet);
+        }
+        /*
+        private void CountDragonColorsOnPlayField(string[,] colorSet)
+        {
+            for (int row = 0; row < colorSet.GetLength(0); row ++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+            {
+                for(int column = 0; column < colorSet.GetLength(1); column++)
+            }
+
+            dragonsColors
+        }
+        */
         private void HidePreviousPlayerDragonCard(int playerIndex)
         {
             switch(players[playerIndex].Position)
@@ -1165,7 +1177,9 @@ namespace Dragons2
                 }
                 else
                 {                    
-                    getPositionForDeckCard(0, -1);              // where to put new card from deck to the set after rearranging?                
+                    getPositionForDeckCard(0, -1);              // where to put new card from deck to the set after rearranging?     
+
+                    RedDragonAction.ThirdPhase = false;         // cancel third phase of red action cause card from player´s set was put on playfield
                 }
             }
             else if (oldPaddingRow + 1 < dgvPlayerCards.RowCount)        // cannot go outside of datagrid rows
@@ -1185,7 +1199,9 @@ namespace Dragons2
                 }
                 else
                 {                   
-                    getPositionForDeckCard(0, -1);              // where to put new card from deck to the set after rearranging?                       
+                    getPositionForDeckCard(0, -1);              // where to put new card from deck to the set after rearranging?    
+
+                    RedDragonAction.ThirdPhase = false;         // cancel third phase of red action cause card from player´s set was put on playfield
                 }
             } 
         }
@@ -1749,7 +1765,7 @@ namespace Dragons2
 
         private string[,] GetColorMap()
         {
-            string[,] colorSet = new string[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
+            string[,] colorSetLocal = new string[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
 
             for(int row = 0; row < dgvPlayField.RowCount; row++)       // set tag property to all blanc card
             {
@@ -1759,21 +1775,21 @@ namespace Dragons2
 
                     if((string)cellPlayerCardsInput.Tag == BlancCardString /*|| (string)cellPlayerCardsInput.Tag != silverDragonString || (string)cellPlayerCardsInput.Tag != colorfulDragonString*/)
                     {
-                        colorSet[row, column] = "b";
+                        colorSetLocal[row, column] = "b";
                     }
                     else
                     {
                         string cardName = (string)cellPlayerCardsInput.Tag;
 
                         if (cardName[0] == 's' || cardName[0] == 'a')     // silver dragon card or action card => there are on the sme place in the middle of playfield
-                            colorSet[row, column] = cardName;
+                            colorSetLocal[row, column] = cardName;
                         else
-                            colorSet[row, column] = cardName.Substring(1, 4);
+                            colorSetLocal[row, column] = cardName.Substring(1, 4);
                     }
                 }
             }
 
-            return colorSet;
+            return colorSetLocal;
         }
     }      
 }
