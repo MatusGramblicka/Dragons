@@ -372,6 +372,8 @@ namespace Dragons2
             bool check4thColorRightCard = true;
             bool check4thColorLowerCard = true;
 
+            bool firstRedColorOccurency = false;
+
             bool[,] cardAlreadyChecked = new bool[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
 
             for (int row = 0; row < colorSet.GetLength(0); row ++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
@@ -380,110 +382,193 @@ namespace Dragons2
                 {
                     if(colorSet[row, column] == "b")           // blanc card
                         continue;
-                    else
+
+                    if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj" || colorSet[row, column].Substring(0, 2) == "ar")    
+                        colorSet[row, column] = "rrrr"; // if card is silver dragon or colorful dragon(first letter 1 is clipped) or red action cardtransform it on full red dragon card
+
+                    if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
                     {
-                        if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
+                        string currentCard = colorSet[row, column];
+
+                        // 1
+                        string currentCardFirstColor = currentCard.Substring(0, 1);
+
+                        if(currentCardFirstColor == "r")
                         {
-                            string currentCard = colorSet[row, column];
+                            if(!firstRedColorOccurency)                             // First card with red color?
+                            {
+                                redCardCount += 1;                                  // Then redCardCount must be added
+                                firstRedColorOccurency = true;
+                            }
 
-                            // 1
-                            string currentCardFirstColor = currentCard.Substring(0, 1);
-                            
-                            if(currentCardFirstColor == "r")
+                            if(!cardAlreadyChecked[row, column - 1])                // have we compare with this card already?
                             {
                                 string leftCard = colorSet[row, column - 1];
-                                string leftCardUpperRightcolor = leftCard.Substring(1, 1);
 
-                                if(currentCardFirstColor == leftCardUpperRightcolor)
+                                if(leftCard != "b")
                                 {
-                                    redCardCount += 1;
-                                    check3thColorLeftCard = false;
-                                }
+                                    string leftCardUpperRightcolor = leftCard.Substring(1, 1);
 
-
-                                string upCard = colorSet[row - 1, column];
-                                string upCardLowerLeftcolor = upCard.Substring(2, 1);
-
-                                if(currentCardFirstColor == upCardLowerLeftcolor)
-                                {
-                                    redCardCount += 1;
-                                    check2thColorUpperCard = false;
+                                    if((currentCardFirstColor == leftCardUpperRightcolor) || (leftCard.Substring(0, 1) == "s"))     // or is silver dragon card
+                                    {
+                                        redCardCount += 1;
+                                        check3thColorLeftCard = false;
+                                    }
                                 }
                             }
 
-                            // 2
-                            string currentCardSecondColor = currentCard.Substring(1, 1);
-
-                            if (currentCardSecondColor == "r")
+                            if(!cardAlreadyChecked[row - 1, column])                // have we compare with this card already?
                             {
                                 string upCard = colorSet[row - 1, column];
-                                string upCardLowerRightColor = upCard.Substring(3, 1);
 
-                                if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
+                                if(upCard != "b")
                                 {
-                                    redCardCount += 1;                                    
-                                }
+                                    string upCardLowerLeftcolor = upCard.Substring(2, 1);
 
-                                string rightCard = colorSet[row, column + 1];
-                                string rightCardUpperLeftColor = rightCard.Substring(0, 1);
-
-                                if(currentCardSecondColor == rightCardUpperLeftColor)
-                                {
-                                    redCardCount += 1;
-                                    check4thColorRightCard = false;
+                                    if((currentCardFirstColor == upCardLowerLeftcolor) || (upCard.Substring(0, 1) == "s"))     // or is silver dragon card
+                                    {
+                                        redCardCount += 1;
+                                        check2thColorUpperCard = false;
+                                    }
                                 }
                             }
-
-
-                            string currentCardThirdColor = currentCard.Substring(2, 1);
-
-                            if(currentCardThirdColor == "r")
-                            {
-                                string leftCard = colorSet[row, column - 1];
-                                string leftCardLowerRightcolor = leftCard.Substring(3, 1);
-
-                                if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
-                                {
-                                    redCardCount += 1;
-                                }
-
-                                string downCard = colorSet[row + 1, column];
-                                string downCardUpperLeftColor = downCard.Substring(0, 1);
-
-                                if (currentCardThirdColor == downCardUpperLeftColor)
-                                {
-                                    redCardCount += 1;
-                                    check4thColorLowerCard = false;
-                                }
-                            }
-
-
-                            string currentCardFourthColor = currentCard.Substring(3, 1);
-
-                            if(currentCardFourthColor == "r")
-                            {
-                                string downCard = colorSet[row + 1, column];
-                                string downCardUpperRightColor = downCard.Substring(1, 1);
-
-                                if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
-                                {
-                                    redCardCount += 1;
-                                }
-
-                                string rightCard = colorSet[row, column + 1];
-                                string rightCardLowerLeftColor = rightCard.Substring(2, 1);
-
-                                if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
-                                {
-                                    redCardCount += 1;
-                                }
-                            }
-
-                            cardAlreadyChecked[row, column] = true;
                         }
-                    }                   
+
+                        // 2
+                        string currentCardSecondColor = currentCard.Substring(1, 1);
+
+                        if(currentCardSecondColor == "r")
+                        {
+                            if(!firstRedColorOccurency)                             // First card with red color?
+                            {
+                                redCardCount += 1;                                  // Then redCardCount must be added
+                                firstRedColorOccurency = true;
+                            }
+
+                            if(!cardAlreadyChecked[row - 1, column])                // have we compared with this card already?
+                            {
+                                string upCard = colorSet[row - 1, column];
+
+                                if(upCard != "b")
+                                {
+                                    string upCardLowerRightColor = upCard.Substring(3, 1);
+
+                                    if(check2thColorUpperCard && (currentCardSecondColor == upCardLowerRightColor || upCard.Substring(0, 1) == "s"))     // or is silver dragon card)
+                                    {
+                                        redCardCount += 1;
+                                    }
+                                }
+                            }
+
+                            if(!cardAlreadyChecked[row, column + 1])                // have we compared with this card already?
+                            {
+                                string rightCard = colorSet[row, column + 1];
+
+                                if(rightCard != "b")
+                                {
+                                    string rightCardUpperLeftColor = rightCard.Substring(0, 1);
+
+                                    if((currentCardSecondColor == rightCardUpperLeftColor) || (rightCard.Substring(0, 1) == "s"))     // or is silver dragon card)
+                                    {
+                                        redCardCount += 1;
+                                        check4thColorRightCard = false;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        string currentCardThirdColor = currentCard.Substring(2, 1);
+
+                        if(currentCardThirdColor == "r")
+                        {
+                            if(!firstRedColorOccurency)                             // First card with red color?
+                            {
+                                redCardCount += 1;                                  // Then redCardCount must be added
+                                firstRedColorOccurency = true;
+                            }
+
+                            if(!cardAlreadyChecked[row, column - 1])                // have we compared with this card already?
+                            {
+                                string leftCard = colorSet[row, column - 1];
+
+                                if(leftCard != "b")
+                                {
+                                    string leftCardLowerRightcolor = leftCard.Substring(3, 1);
+
+                                    if(check3thColorLeftCard && (currentCardThirdColor == leftCardLowerRightcolor || leftCard.Substring(0, 1) == "s"))     // or is silver dragon card))
+                                    {
+                                        redCardCount += 1;
+                                    }
+                                }
+                            }
+
+                            if(!cardAlreadyChecked[row + 1, column])                // have we compared with this card already?
+                            {
+                                string downCard = colorSet[row + 1, column];
+
+                                if(downCard != "b")
+                                {
+                                    string downCardUpperLeftColor = downCard.Substring(0, 1);
+
+                                    if((currentCardThirdColor == downCardUpperLeftColor) || (downCard.Substring(0, 1) == "s"))     // or is silver dragon card)))
+                                    {
+                                        redCardCount += 1;
+                                        check4thColorLowerCard = false;
+                                    }
+                                }
+                            }
+                        }
+
+
+
+                        string currentCardFourthColor = currentCard.Substring(3, 1);
+
+                        if(currentCardFourthColor == "r")
+                        {
+                            if(!firstRedColorOccurency)                             // First card with red color?
+                            {
+                                redCardCount += 1;                                  // Then redCardCount must be added
+                                firstRedColorOccurency = true;
+                            }
+
+                            if(!cardAlreadyChecked[row + 1, column])                // have we compared with this card already?
+                            {
+                                string downCard = colorSet[row + 1, column];
+
+                                if(downCard != "b")
+                                {
+                                    string downCardUpperRightColor = downCard.Substring(1, 1);
+
+                                    if(check4thColorLowerCard && (currentCardFourthColor == downCardUpperRightColor || downCard.Substring(0, 1) == "s"))     // or is silver dragon card))))
+                                    {
+                                        redCardCount += 1;
+                                    }
+                                }
+                            }
+
+                            if(!cardAlreadyChecked[row, column + 1])                // have we compared with this card already?
+                            {
+                                string rightCard = colorSet[row, column + 1];
+
+                                if(rightCard != "b")
+                                {
+                                    string rightCardLowerLeftColor = rightCard.Substring(2, 1);
+
+                                    if(check4thColorRightCard && (currentCardFourthColor == rightCardLowerLeftColor || rightCard.Substring(0, 1) == "s"))     // or is silver dragon card))))
+                                    {
+                                        redCardCount += 1;
+                                    }
+                                }
+                            }
+                        }
+
+                        cardAlreadyChecked[row, column] = true;
+                    }                                     
                 }
             }
+
+            label8.Text = redCardCount.ToString();
 
            // dragonsColors
         }
