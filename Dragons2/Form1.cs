@@ -360,19 +360,134 @@ namespace Dragons2
 
             string[,] colorSet = GetColorMap();
 
-           // CountDragonColorsOnPlayField(colorSet);
+            CountDragonColorsOnPlayField(colorSet);
         }
-        /*
+        
         private void CountDragonColorsOnPlayField(string[,] colorSet)
         {
+            int redCardCount = 0;
+
+            bool check3thColorLeftCard = true;
+            bool check2thColorUpperCard = true;
+            bool check4thColorRightCard = true;
+            bool check4thColorLowerCard = true;
+
+            bool[,] cardAlreadyChecked = new bool[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
+
             for (int row = 0; row < colorSet.GetLength(0); row ++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
             {
                 for(int column = 0; column < colorSet.GetLength(1); column++)
+                {
+                    if(colorSet[row, column] == "b")           // blanc card
+                        continue;
+                    else
+                    {
+                        if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
+                        {
+                            string currentCard = colorSet[row, column];
+
+                            // 1
+                            string currentCardFirstColor = currentCard.Substring(0, 1);
+                            
+                            if(currentCardFirstColor == "r")
+                            {
+                                string leftCard = colorSet[row, column - 1];
+                                string leftCardUpperRightcolor = leftCard.Substring(1, 1);
+
+                                if(currentCardFirstColor == leftCardUpperRightcolor)
+                                {
+                                    redCardCount += 1;
+                                    check3thColorLeftCard = false;
+                                }
+
+
+                                string upCard = colorSet[row - 1, column];
+                                string upCardLowerLeftcolor = upCard.Substring(2, 1);
+
+                                if(currentCardFirstColor == upCardLowerLeftcolor)
+                                {
+                                    redCardCount += 1;
+                                    check2thColorUpperCard = false;
+                                }
+                            }
+
+                            // 2
+                            string currentCardSecondColor = currentCard.Substring(1, 1);
+
+                            if (currentCardSecondColor == "r")
+                            {
+                                string upCard = colorSet[row - 1, column];
+                                string upCardLowerRightColor = upCard.Substring(3, 1);
+
+                                if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
+                                {
+                                    redCardCount += 1;                                    
+                                }
+
+                                string rightCard = colorSet[row, column + 1];
+                                string rightCardUpperLeftColor = rightCard.Substring(0, 1);
+
+                                if(currentCardSecondColor == rightCardUpperLeftColor)
+                                {
+                                    redCardCount += 1;
+                                    check4thColorRightCard = false;
+                                }
+                            }
+
+
+                            string currentCardThirdColor = currentCard.Substring(2, 1);
+
+                            if(currentCardThirdColor == "r")
+                            {
+                                string leftCard = colorSet[row, column - 1];
+                                string leftCardLowerRightcolor = leftCard.Substring(3, 1);
+
+                                if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
+                                {
+                                    redCardCount += 1;
+                                }
+
+                                string downCard = colorSet[row + 1, column];
+                                string downCardUpperLeftColor = downCard.Substring(0, 1);
+
+                                if (currentCardThirdColor == downCardUpperLeftColor)
+                                {
+                                    redCardCount += 1;
+                                    check4thColorLowerCard = false;
+                                }
+                            }
+
+
+                            string currentCardFourthColor = currentCard.Substring(3, 1);
+
+                            if(currentCardFourthColor == "r")
+                            {
+                                string downCard = colorSet[row + 1, column];
+                                string downCardUpperRightColor = downCard.Substring(1, 1);
+
+                                if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
+                                {
+                                    redCardCount += 1;
+                                }
+
+                                string rightCard = colorSet[row, column + 1];
+                                string rightCardLowerLeftColor = rightCard.Substring(2, 1);
+
+                                if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
+                                {
+                                    redCardCount += 1;
+                                }
+                            }
+
+                            cardAlreadyChecked[row, column] = true;
+                        }
+                    }                   
+                }
             }
 
-            dragonsColors
+           // dragonsColors
         }
-        */
+        
         private void HidePreviousPlayerDragonCard(int playerIndex)
         {
             switch(players[playerIndex].Position)
