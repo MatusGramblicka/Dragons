@@ -371,7 +371,7 @@ namespace Dragons2
         {
             int redCardCount = 0;
 
-            
+            List<Coordinates> coordinatesOfFollowingCard = new List<Coordinates>();
 
             bool firstRedColorOccurency = false;
 
@@ -432,6 +432,8 @@ namespace Dragons2
                                     {
                                         redCardCount += 1;
                                         check3thColorLeftCard = false;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column - 1));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
@@ -449,6 +451,8 @@ namespace Dragons2
                                     {
                                         redCardCount += 1;
                                         check2thColorUpperCard = false;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row - 1, column));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
@@ -479,6 +483,8 @@ namespace Dragons2
                                     if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
                                     {
                                         redCardCount += 1;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row - 1, column));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
@@ -496,6 +502,8 @@ namespace Dragons2
                                     {
                                         redCardCount += 1;
                                         check4thColorRightCard = false;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column + 1));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
@@ -526,6 +534,8 @@ namespace Dragons2
                                     if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
                                     {
                                         redCardCount += 1;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column - 1));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
@@ -543,6 +553,8 @@ namespace Dragons2
                                     {
                                         redCardCount += 1;
                                         check4thColorLowerCard = false;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row + 1, column));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
@@ -573,6 +585,8 @@ namespace Dragons2
                                     if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
                                     {
                                         redCardCount += 1;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row + 1, column));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
@@ -589,13 +603,18 @@ namespace Dragons2
                                     if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
                                     {
                                         redCardCount += 1;
+
+                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column + 1));       // next card to check (card has at least 1 same color)
                                     }
                                 }
                             }
                         }
 
                         cardAlreadyChecked[row, column] = true;
-                    }                                     
+                    }
+                    
+
+                    // do staff with adacent cards
                 }
             }
 
