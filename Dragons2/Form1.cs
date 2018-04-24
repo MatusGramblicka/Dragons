@@ -371,24 +371,37 @@ namespace Dragons2
         {
             int redCardCount = 0;
 
-            bool check3thColorLeftCard = true;
-            bool check2thColorUpperCard = true;
-            bool check4thColorRightCard = true;
-            bool check4thColorLowerCard = true;
+            
 
             bool firstRedColorOccurency = false;
 
             bool[,] cardAlreadyChecked = new bool[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
 
+            // change silver dragon, colorful dragon and red action card on full red dragon card rrrr
+            for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+            {
+                for(int column = 0; column < colorSet.GetLength(1); column++)
+                {
+                    if(colorSet[row, column] == "b")           // if blanc card iterate for next card
+                        continue;
+
+                    if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj" || colorSet[row, column].Substring(0, 2) == "ar")
+                        colorSet[row, column] = "rrrr"; // if card is silver dragon or colorful dragon(first letter 1 is clipped) or red action cardtransform it on full red dragon card
+                }
+            }
+
             for (int row = 0; row < colorSet.GetLength(0); row ++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
             {
                 for(int column = 0; column < colorSet.GetLength(1); column++)
                 {
-                    if(colorSet[row, column] == "b")           // blanc card
-                        continue;
+                    bool check3thColorLeftCard = true;
+                    bool check2thColorUpperCard = true;
+                    bool check4thColorRightCard = true;
+                    bool check4thColorLowerCard = true;
 
-                    if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj" || colorSet[row, column].Substring(0, 2) == "ar")    
-                        colorSet[row, column] = "rrrr"; // if card is silver dragon or colorful dragon(first letter 1 is clipped) or red action cardtransform it on full red dragon card
+                    if(colorSet[row, column] == "b")           // if blanc card iterate for next card
+                        continue;
+                                        
 
                     if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
                     {
