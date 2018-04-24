@@ -363,6 +363,10 @@ namespace Dragons2
             CountDragonColorsOnPlayField(colorSet);
         }
         
+        /// <summary>
+        /// Count the count of colors of dragons on playfield
+        /// </summary>
+        /// <param name="colorSet"></param>
         private void CountDragonColorsOnPlayField(string[,] colorSet)
         {
             int redCardCount = 0;
@@ -390,7 +394,8 @@ namespace Dragons2
                     {
                         string currentCard = colorSet[row, column];
 
-                        // 1
+
+                        // 1. color 
                         string currentCardFirstColor = currentCard.Substring(0, 1);
 
                         if(currentCardFirstColor == "r")
@@ -401,6 +406,7 @@ namespace Dragons2
                                 firstRedColorOccurency = true;
                             }
 
+                            // left card
                             if(!cardAlreadyChecked[row, column - 1])                // have we compare with this card already?
                             {
                                 string leftCard = colorSet[row, column - 1];
@@ -409,7 +415,7 @@ namespace Dragons2
                                 {
                                     string leftCardUpperRightcolor = leftCard.Substring(1, 1);
 
-                                    if((currentCardFirstColor == leftCardUpperRightcolor) || (leftCard.Substring(0, 1) == "s"))     // or is silver dragon card
+                                    if(currentCardFirstColor == leftCardUpperRightcolor)
                                     {
                                         redCardCount += 1;
                                         check3thColorLeftCard = false;
@@ -417,6 +423,7 @@ namespace Dragons2
                                 }
                             }
 
+                            // up card
                             if(!cardAlreadyChecked[row - 1, column])                // have we compare with this card already?
                             {
                                 string upCard = colorSet[row - 1, column];
@@ -425,7 +432,7 @@ namespace Dragons2
                                 {
                                     string upCardLowerLeftcolor = upCard.Substring(2, 1);
 
-                                    if((currentCardFirstColor == upCardLowerLeftcolor) || (upCard.Substring(0, 1) == "s"))     // or is silver dragon card
+                                    if(currentCardFirstColor == upCardLowerLeftcolor)
                                     {
                                         redCardCount += 1;
                                         check2thColorUpperCard = false;
@@ -434,7 +441,9 @@ namespace Dragons2
                             }
                         }
 
-                        // 2
+
+                        ///----------------------------------------------------------
+                        // 2. color
                         string currentCardSecondColor = currentCard.Substring(1, 1);
 
                         if(currentCardSecondColor == "r")
@@ -445,6 +454,7 @@ namespace Dragons2
                                 firstRedColorOccurency = true;
                             }
 
+                            // up card
                             if(!cardAlreadyChecked[row - 1, column])                // have we compared with this card already?
                             {
                                 string upCard = colorSet[row - 1, column];
@@ -453,13 +463,14 @@ namespace Dragons2
                                 {
                                     string upCardLowerRightColor = upCard.Substring(3, 1);
 
-                                    if(check2thColorUpperCard && (currentCardSecondColor == upCardLowerRightColor || upCard.Substring(0, 1) == "s"))     // or is silver dragon card)
+                                    if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
                                     {
                                         redCardCount += 1;
                                     }
                                 }
                             }
 
+                            // right card
                             if(!cardAlreadyChecked[row, column + 1])                // have we compared with this card already?
                             {
                                 string rightCard = colorSet[row, column + 1];
@@ -468,7 +479,7 @@ namespace Dragons2
                                 {
                                     string rightCardUpperLeftColor = rightCard.Substring(0, 1);
 
-                                    if((currentCardSecondColor == rightCardUpperLeftColor) || (rightCard.Substring(0, 1) == "s"))     // or is silver dragon card)
+                                    if(currentCardSecondColor == rightCardUpperLeftColor)
                                     {
                                         redCardCount += 1;
                                         check4thColorRightCard = false;
@@ -478,6 +489,8 @@ namespace Dragons2
                         }
 
 
+                        ///----------------------------------------------------------
+                        // 3.color
                         string currentCardThirdColor = currentCard.Substring(2, 1);
 
                         if(currentCardThirdColor == "r")
@@ -488,6 +501,7 @@ namespace Dragons2
                                 firstRedColorOccurency = true;
                             }
 
+                            // left card
                             if(!cardAlreadyChecked[row, column - 1])                // have we compared with this card already?
                             {
                                 string leftCard = colorSet[row, column - 1];
@@ -496,13 +510,14 @@ namespace Dragons2
                                 {
                                     string leftCardLowerRightcolor = leftCard.Substring(3, 1);
 
-                                    if(check3thColorLeftCard && (currentCardThirdColor == leftCardLowerRightcolor || leftCard.Substring(0, 1) == "s"))     // or is silver dragon card))
+                                    if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
                                     {
                                         redCardCount += 1;
                                     }
                                 }
                             }
 
+                            // down card
                             if(!cardAlreadyChecked[row + 1, column])                // have we compared with this card already?
                             {
                                 string downCard = colorSet[row + 1, column];
@@ -511,7 +526,7 @@ namespace Dragons2
                                 {
                                     string downCardUpperLeftColor = downCard.Substring(0, 1);
 
-                                    if((currentCardThirdColor == downCardUpperLeftColor) || (downCard.Substring(0, 1) == "s"))     // or is silver dragon card)))
+                                    if(currentCardThirdColor == downCardUpperLeftColor)
                                     {
                                         redCardCount += 1;
                                         check4thColorLowerCard = false;
@@ -521,7 +536,8 @@ namespace Dragons2
                         }
 
 
-
+                        ///----------------------------------------------------------
+                        // 4. color
                         string currentCardFourthColor = currentCard.Substring(3, 1);
 
                         if(currentCardFourthColor == "r")
@@ -532,6 +548,7 @@ namespace Dragons2
                                 firstRedColorOccurency = true;
                             }
 
+                            // down card
                             if(!cardAlreadyChecked[row + 1, column])                // have we compared with this card already?
                             {
                                 string downCard = colorSet[row + 1, column];
@@ -540,13 +557,14 @@ namespace Dragons2
                                 {
                                     string downCardUpperRightColor = downCard.Substring(1, 1);
 
-                                    if(check4thColorLowerCard && (currentCardFourthColor == downCardUpperRightColor || downCard.Substring(0, 1) == "s"))     // or is silver dragon card))))
+                                    if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
                                     {
                                         redCardCount += 1;
                                     }
                                 }
                             }
 
+                            // right card
                             if(!cardAlreadyChecked[row, column + 1])                // have we compared with this card already?
                             {
                                 string rightCard = colorSet[row, column + 1];
@@ -555,7 +573,7 @@ namespace Dragons2
                                 {
                                     string rightCardLowerLeftColor = rightCard.Substring(2, 1);
 
-                                    if(check4thColorRightCard && (currentCardFourthColor == rightCardLowerLeftColor || rightCard.Substring(0, 1) == "s"))     // or is silver dragon card))))
+                                    if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
                                     {
                                         redCardCount += 1;
                                     }
