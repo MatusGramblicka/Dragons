@@ -10,11 +10,19 @@ namespace Dragons2
     {       
         public int Row { get; set; }
         public int Column { get; set; }
+        public bool AlreadyAdded { get; set; }
 
-        public Coordinates(int row, int column)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="AlreadyAdded">Card was checked and color count was increased, so there is no need to add again</param>
+        public Coordinates(int row, int column, bool alreadyAdded)
         {
             Row = row;
             Column = column;
+            AlreadyAdded = alreadyAdded;
         }
     }
 }
