@@ -362,289 +362,184 @@ namespace Dragons2
 
             CountDragonColorsOnPlayField(colorSet);
         }
-        
+
         /// <summary>
         /// Count the count of colors of dragons on playfield
         /// </summary>
         /// <param name="colorSet"></param>
         private void CountDragonColorsOnPlayField(string[,] colorSet)
         {
-            int redCardCount = 0;
+            int CardCount = 0;
+            List<int> CardCounts = new List<int>();
+            List<int> goldCardCounts = new List<int>();
+            List<int> greenCardCounts = new List<int>();
+            List<int> blackCardCounts = new List<int>();
+            List<int> blueCardCounts = new List<int>();
 
             List<Coordinates> coordinatesOfFollowingCard = new List<Coordinates>();
 
-            bool firstRedColorOccurency = false;
-
-            bool[,] cardAlreadyChecked = new bool[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
-
-            // change silver dragon, colorful dragon and red action card on full red dragon card rrrr
-            for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+            List<string> colors = new List<string>() { "r", "o", "v", "n", "b" };        // it will iterate over all colors
+            Dictionary<string, bool> firstColorOccurency = new Dictionary<string, bool>()
             {
-                for(int column = 0; column < colorSet.GetLength(1); column++)
-                {
-                    if(colorSet[row, column] == "b")           // if blanc card iterate for next card
-                        continue;
-
-                    if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj" || colorSet[row, column].Substring(0, 2) == "ar")
-                        colorSet[row, column] = "rrrr"; // if card is silver dragon or colorful dragon(first letter 1 is clipped) or red action cardtransform it on full red dragon card
-                }
-            }
-
-            for (int row = 0; row < colorSet.GetLength(0); row ++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+                { colors[0], false },
+                { colors[1], false },
+                { colors[2], false },
+                { colors[3], false },
+                { colors[4], false }
+            };
+            Dictionary<string, int> colorCardCount = new Dictionary<string, int>()
             {
-                for(int column = 0; column < colorSet.GetLength(1); column++)
+                { colors[0], 0 },
+                { colors[1], 0 },
+                { colors[2], 0 },
+                { colors[3], 0 },
+                { colors[4], 0 }
+            };
+            Dictionary<string, string> dragonCardTransformation = new Dictionary<string, string>()
+            {
+                { colors[0], "rrrr" },
+                { colors[1], "oooo" },
+                { colors[2], "vvvv" },
+                { colors[3], "nnnn" },
+                { colors[4], "bbbb" }
+            };
+
+
+
+            for(int c = 0; c < colors.Count; c++)
+            {
+                string color = colors[c];
+
+                bool firstRedColorOccurency = false;
+
+                bool[,] cardAlreadyChecked = new bool[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
+
+                // change silver dragon, colorful dragon and red action card on full red dragon card rrrr
+                for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
                 {
-                    bool check3thColorLeftCard = true;
-                    bool check2thColorUpperCard = true;
-                    bool check4thColorRightCard = true;
-                    bool check4thColorLowerCard = true;
-
-                    if(colorSet[row, column] == "b")           // if blanc card iterate for next card
-                        continue;
-                                        
-
-                    if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
+                    for(int column = 0; column < colorSet.GetLength(1); column++)
                     {
-                        string currentCard = colorSet[row, column];
+                        if(colorSet[row, column] == "b")           // if blanc card iterate for next card
+                            continue;
 
-
-                        // 1. color 
-                        string currentCardFirstColor = currentCard.Substring(0, 1);
-
-                        if(currentCardFirstColor == "r")
+                        if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj" ||
+                            (colorSet[row, column].Substring(0, 2) == "ar" || colorSet[row, column].Substring(0, 2) == "ao" || colorSet[row, column].Substring(0, 2) == "av" ||
+                            colorSet[row, column].Substring(0, 2) == "an" || colorSet[row, column].Substring(0, 2) == "ab"))
                         {
-                            if(!firstRedColorOccurency)                             // First card with red color?
-                            {
-                                redCardCount += 1;                                  // Then redCardCount must be added
-                                firstRedColorOccurency = true;
-                            }
-
-                            // left card
-                            check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref redCardCount);
-                            /* 
-                            if(!cardAlreadyChecked[row, column - 1])                // have we compare with this card already?
-                            {
-                                string leftCard = colorSet[row, column - 1];
-
-                                if(leftCard != "b")
-                                {
-                                    string leftCardUpperRightcolor = leftCard.Substring(1, 1);
-
-                                    if(currentCardFirstColor == leftCardUpperRightcolor)
-                                    {
-                                        redCardCount += 1;
-                                        check3thColorLeftCard = false;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column - 1, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
-
-
-
-                            // up card
-                            check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref redCardCount);
-                            /*
-                            if(!cardAlreadyChecked[row - 1, column])                // have we compare with this card already?
-                            {
-                                string upCard = colorSet[row - 1, column];
-
-                                if(upCard != "b")
-                                {
-                                    string upCardLowerLeftcolor = upCard.Substring(2, 1);
-
-                                    if(currentCardFirstColor == upCardLowerLeftcolor)
-                                    {
-                                        redCardCount += 1;
-                                        check2thColorUpperCard = false;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row - 1, column, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
+                            colorSet[row, column] = dragonCardTransformation[color] + "x"; // if card is silver dragon or colorful dragon(first letter 1 is clipped) or red action cardtransform it on full (red, gold, green, black, blue) dragon card + "x" letter for to be able do next transformation
                         }
-
-
-                        ///----------------------------------------------------------
-                        // 2. color
-                        string currentCardSecondColor = currentCard.Substring(1, 1);
-
-                        if(currentCardSecondColor == "r")
+                        else if(colorSet[row, column].Length == 5 /*|| colorSet[row, column].Substring(4, 1) == "x"*/)          // for example vvvvx change it on for example nnnnx
                         {
-                            if(!firstRedColorOccurency)                             // First card with red color?
-                            {
-                                redCardCount += 1;                                  // Then redCardCount must be added
-                                firstRedColorOccurency = true;
-                            }
-
-                            // up card
-                            upCardLowerRightColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref redCardCount, check2thColorUpperCard);
-                            /*
-                            if(!cardAlreadyChecked[row - 1, column])                // have we compared with this card already?
-                            {
-                                string upCard = colorSet[row - 1, column];
-
-                                if(upCard != "b")
-                                {
-                                    string upCardLowerRightColor = upCard.Substring(3, 1);
-
-                                    if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
-                                    {
-                                        redCardCount += 1;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row - 1, column, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
-
-                            // right card
-                            check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref redCardCount);
-                            /*
-                            if(!cardAlreadyChecked[row, column + 1])                // have we compared with this card already?
-                            {
-                                string rightCard = colorSet[row, column + 1];
-
-                                if(rightCard != "b")
-                                {
-                                    string rightCardUpperLeftColor = rightCard.Substring(0, 1);
-
-                                    if(currentCardSecondColor == rightCardUpperLeftColor)
-                                    {
-                                        redCardCount += 1;
-                                        check4thColorRightCard = false;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column + 1, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
+                            colorSet[row, column] = dragonCardTransformation[color] + "x";
                         }
-
-
-                        ///----------------------------------------------------------
-                        // 3.color
-                        string currentCardThirdColor = currentCard.Substring(2, 1);
-
-                        if(currentCardThirdColor == "r")
-                        {
-                            if(!firstRedColorOccurency)                             // First card with red color?
-                            {
-                                redCardCount += 1;                                  // Then redCardCount must be added
-                                firstRedColorOccurency = true;
-                            }
-
-                            // left card
-                            leftCardLowerRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref redCardCount, check3thColorLeftCard);
-                            /*
-                            if(!cardAlreadyChecked[row, column - 1])                // have we compared with this card already?
-                            {
-                                string leftCard = colorSet[row, column - 1];
-
-                                if(leftCard != "b")
-                                {
-                                    string leftCardLowerRightcolor = leftCard.Substring(3, 1);
-
-                                    if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
-                                    {
-                                        redCardCount += 1;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column - 1, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
-
-                            // down card
-                            check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref redCardCount);
-                            /*
-                            if(!cardAlreadyChecked[row + 1, column])                // have we compared with this card already?
-                            {
-                                string downCard = colorSet[row + 1, column];
-
-                                if(downCard != "b")
-                                {
-                                    string downCardUpperLeftColor = downCard.Substring(0, 1);
-
-                                    if(currentCardThirdColor == downCardUpperLeftColor)
-                                    {
-                                        redCardCount += 1;
-                                        check4thColorLowerCard = false;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row + 1, column, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
-                        }
-
-
-                        ///----------------------------------------------------------
-                        // 4. color
-                        string currentCardFourthColor = currentCard.Substring(3, 1);
-
-                        if(currentCardFourthColor == "r")
-                        {
-                            if(!firstRedColorOccurency)                             // First card with red color?
-                            {
-                                redCardCount += 1;                                  // Then redCardCount must be added
-                                firstRedColorOccurency = true;
-                            }
-
-                            // down card
-                            downCardUpperRightColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref redCardCount, check4thColorLowerCard);
-                            /*
-                            if(!cardAlreadyChecked[row + 1, column])                // have we compared with this card already?
-                            {
-                                string downCard = colorSet[row + 1, column];
-
-                                if(downCard != "b")
-                                {
-                                    string downCardUpperRightColor = downCard.Substring(1, 1);
-
-                                    if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
-                                    {
-                                        redCardCount += 1;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row + 1, column, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
-
-                            // right card
-                            rightCardLowerLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref redCardCount, check4thColorRightCard);
-                            /*
-                            if(!cardAlreadyChecked[row, column + 1])                // have we compared with this card already?
-                            {
-                                string rightCard = colorSet[row, column + 1];
-
-                                if(rightCard != "b")
-                                {
-                                    string rightCardLowerLeftColor = rightCard.Substring(2, 1);
-
-                                    if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
-                                    {
-                                        redCardCount += 1;
-
-                                        coordinatesOfFollowingCard.Add(new Coordinates(row, column + 1, true));       // next card to check (card has at least 1 same color)
-                                    }
-                                }
-                            }
-                            */
-                        }
-
-                        cardAlreadyChecked[row, column] = true;
                     }
+                }
 
-                    while(coordinatesOfFollowingCard.Count != 0)
+                for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+                {
+                    for(int column = 0; column < colorSet.GetLength(1); column++)
                     {
-                        if(!cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column])         // Was the following card already checked? If was dont continue.
+                        bool check3thColorLeftCard = true;
+                        bool check2thColorUpperCard = true;
+                        bool check4thColorRightCard = true;
+                        bool check4thColorLowerCard = true;
+
+                        if(colorSet[row, column] == "b")           // if blanc card iterate for next card
+                            continue;
+
+
+                        if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
                         {
-                           
-                            
+                            string currentCard = colorSet[row, column];
+
+
+                            // 1. color 
+                            string currentCardFirstColor = currentCard.Substring(0, 1);
+
+                            if(currentCardFirstColor == color)
+                            {
+                                if(!firstRedColorOccurency)                             // First card with red color?
+                                {
+                                    CardCount += 1;                                  // Then CardCount must be added
+                                    firstRedColorOccurency = true;
+                                }
+
+                                // left card
+                                check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
+                               
+                                // up card
+                                check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);                               
+                            }
+
+
+                            ///----------------------------------------------------------
+                            // 2. color
+                            string currentCardSecondColor = currentCard.Substring(1, 1);
+
+                            if(currentCardSecondColor == color)
+                            {
+                                if(!firstRedColorOccurency)                             // First card with red color?
+                                {
+                                    CardCount += 1;                                  // Then CardCount must be added
+                                    firstRedColorOccurency = true;
+                                }
+
+                                // up card
+                                upCardLowerRightColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount, check2thColorUpperCard);
+                                
+                                // right card
+                                check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount);                               
+                            }
+
+
+                            ///----------------------------------------------------------
+                            // 3.color
+                            string currentCardThirdColor = currentCard.Substring(2, 1);
+
+                            if(currentCardThirdColor == color)
+                            {
+                                if(!firstRedColorOccurency)                             // First card with red color?
+                                {
+                                    CardCount += 1;                                  // Then CardCount must be added
+                                    firstRedColorOccurency = true;
+                                }
+
+                                // left card
+                                leftCardLowerRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount, check3thColorLeftCard);
+                               
+                                // down card
+                                check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount);                               
+                            }
+
+
+                            ///----------------------------------------------------------
+                            // 4. color
+                            string currentCardFourthColor = currentCard.Substring(3, 1);
+
+                            if(currentCardFourthColor == color)
+                            {
+                                if(!firstRedColorOccurency)                             // First card with red color?
+                                {
+                                    CardCount += 1;                                  // Then CardCount must be added
+                                    firstRedColorOccurency = true;
+                                }
+
+                                // down card
+                                downCardUpperRightColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorLowerCard);
+                                
+                                // right card
+                                rightCardLowerLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorRightCard);                               
+                            }
+
+                            cardAlreadyChecked[row, column] = true;
+                        }
+
+                        while(coordinatesOfFollowingCard.Count != 0)
+                        {
+                            if(!cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column])         // Was the following card already checked? If was dont continue.
+                            {
+
+
                                 check3thColorLeftCard = true;
                                 check2thColorUpperCard = true;
                                 check4thColorRightCard = true;
@@ -655,77 +550,116 @@ namespace Dragons2
                                 // 1. color 
                                 string currentCardFirstColor = currentCard.Substring(0, 1);
 
-                                if(currentCardFirstColor == "r")
+                                if(currentCardFirstColor == color)
                                 {
                                     // left card
-                                    check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref redCardCount);
-                                    
+                                    check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
+
                                     // up card
-                                    check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref redCardCount);                                  
+                                    check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
                                 }
 
                                 ///----------------------------------------------------------
                                 // 2. color
                                 string currentCardSecondColor = currentCard.Substring(1, 1);
 
-                                if(currentCardSecondColor == "r")
-                                {     
+                                if(currentCardSecondColor == color)
+                                {
                                     // up card
-                                    upCardLowerRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref redCardCount, check2thColorUpperCard);
-                                   
+                                    upCardLowerRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount, check2thColorUpperCard);
+
                                     // right card
-                                    check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref redCardCount);                                
+                                    check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount);
                                 }
 
                                 ///----------------------------------------------------------
                                 // 3.color
                                 string currentCardThirdColor = currentCard.Substring(2, 1);
 
-                                if(currentCardThirdColor == "r")
+                                if(currentCardThirdColor == color)
                                 {
                                     // left card
-                                    leftCardLowerRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref redCardCount, check3thColorLeftCard);
-                                    
+                                    leftCardLowerRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount, check3thColorLeftCard);
+
                                     // down card
-                                    check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref redCardCount);                                   
+                                    check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount);
                                 }
 
                                 ///----------------------------------------------------------
                                 // 4. color
                                 string currentCardFourthColor = currentCard.Substring(3, 1);
 
-                                if(currentCardFourthColor == "r")
+                                if(currentCardFourthColor == color)
                                 {
                                     // down card
-                                    downCardUpperRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref redCardCount, check4thColorLowerCard);
-                                   
+                                    downCardUpperRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorLowerCard);
+
                                     // right card
-                                    rightCardLowerLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref redCardCount, check4thColorRightCard);                                    
+                                    rightCardLowerLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorRightCard);
                                 }
 
-                                cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column] = true;
+                                cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column] = true;                                
+                            }
 
+                            coordinatesOfFollowingCard.RemoveAt(0);
 
+                            if(coordinatesOfFollowingCard.Count == 0)       // after counting first neighboring group, save the value and null counter
+                            {
+                                CardCounts.Add(CardCount);
 
+                                CardCount = 0;
 
-
-                                
-
-
-
-                            
+                                firstRedColorOccurency = false;
+                            }
                         }
-                        coordinatesOfFollowingCard.RemoveAt(0);
                     }
-
-
-                    // save result of counting of first neigboring cards, there should be also another neighboring area
                 }
-            }
 
-            label8.Text = redCardCount.ToString();
+                if(CardCounts.Count != 0)
+                {
+                    CardCount = CardCounts.Max();
+                    CardCounts.Clear();
+                }
 
-           // dragonsColors
+                switch(color)
+                {
+                    case "r":
+                        lblRedCardCount.Text = CardCount.ToString();
+                        if(CardCount == 7)
+                            EndGame(color);
+                        CardCount = 0;
+                        break;
+                    case "o":
+                        lblGoldCardCount.Text = CardCount.ToString();
+                        if(CardCount == 7)
+                            EndGame(color);
+                        CardCount = 0;
+                        break;
+                    case "v":
+                        lblGreenCardCount.Text = CardCount.ToString();
+                        if(CardCount == 7)
+                            EndGame(color);
+                        CardCount = 0;
+                        break;
+                    case "n":
+                        lblBlackCardCount.Text = CardCount.ToString();
+                        if(CardCount == 7)
+                            EndGame(color);
+                        CardCount = 0;
+                        break;
+                    case "b":
+                        lblBlueCardCount.Text = CardCount.ToString();
+                        if(CardCount == 7)
+                            EndGame(color);
+                        CardCount = 0;
+                        break;
+                }                
+            }           
+        }
+
+        private void EndGame(string color)
+        {
+            MessageBox.Show("Winner is " + color + ".", "End of game");
         }
 
         /// <summary>
@@ -748,7 +682,7 @@ namespace Dragons2
             return added;
         }
 
-        private bool leftCardUpperRightcolor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFirstColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount)
+        private bool leftCardUpperRightcolor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFirstColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount)
         {
             bool check3thColorLeftCard = true;
             int localColumn = column - 1;
@@ -768,7 +702,7 @@ namespace Dragons2
 
                         if(currentCardFirstColor == leftCardUpperRightcolor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
                             check3thColorLeftCard = false;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
@@ -780,7 +714,7 @@ namespace Dragons2
             return check3thColorLeftCard;
         }
 
-        private bool upCardLowerLeftcolor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFirstColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount)
+        private bool upCardLowerLeftcolor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFirstColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount)
         {
             bool check2thColorUpperCard = true;
             int localRow = row - 1;
@@ -799,7 +733,7 @@ namespace Dragons2
 
                         if(currentCardFirstColor == upCardLowerLeftcolor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
                             check2thColorUpperCard = false;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
@@ -811,7 +745,7 @@ namespace Dragons2
             return check2thColorUpperCard;
         }
 
-        private void upCardLowerRightColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardSecondColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount, bool check2thColorUpperCard)
+        private void upCardLowerRightColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardSecondColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount, bool check2thColorUpperCard)
         {
             int localRow = row - 1;
 
@@ -829,7 +763,7 @@ namespace Dragons2
 
                         if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
                         }
@@ -838,7 +772,7 @@ namespace Dragons2
             }
         }
 
-        private bool rightCardUpperLeftColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardSecondColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount)
+        private bool rightCardUpperLeftColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardSecondColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount)
         {
             bool check4thColorRightCard = true;
             int localColumn = column + 1;
@@ -857,7 +791,7 @@ namespace Dragons2
 
                         if(currentCardSecondColor == rightCardUpperLeftColor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
                             check4thColorRightCard = false;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
@@ -869,7 +803,7 @@ namespace Dragons2
             return check4thColorRightCard;
         }
 
-        private void leftCardLowerRightcolor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardThirdColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount, bool check3thColorLeftCard)
+        private void leftCardLowerRightcolor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardThirdColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount, bool check3thColorLeftCard)
         {
             int localColumn = column - 1;
 
@@ -887,7 +821,7 @@ namespace Dragons2
 
                         if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
                         }
@@ -896,7 +830,7 @@ namespace Dragons2
             }
         }
 
-        private bool downCardUpperLeftColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardThirdColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount)
+        private bool downCardUpperLeftColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardThirdColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount)
         {
             bool check4thColorLowerCard = true;
             int localRow = row + 1;
@@ -915,7 +849,7 @@ namespace Dragons2
 
                         if(currentCardThirdColor == downCardUpperLeftColor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
                             check4thColorLowerCard = false;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
@@ -927,7 +861,7 @@ namespace Dragons2
             return check4thColorLowerCard;
         }
 
-        private void downCardUpperRightColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFourthColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount, bool check4thColorLowerCard)
+        private void downCardUpperRightColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFourthColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount, bool check4thColorLowerCard)
         {
             int localRow = row + 1;
 
@@ -945,7 +879,7 @@ namespace Dragons2
 
                         if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
                         }
@@ -954,7 +888,7 @@ namespace Dragons2
             }
         }
 
-        private void rightCardLowerLeftColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFourthColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int redCardCount, bool check4thColorRightCard)
+        private void rightCardLowerLeftColor(bool[,] cardAlreadyChecked, int row, int column, string[,] colorSet, string currentCardFourthColor, ref List<Coordinates> coordinatesOfFollowingCard, ref int CardCount, bool check4thColorRightCard)
         {
             int localColumn = column + 1;
 
@@ -972,7 +906,7 @@ namespace Dragons2
 
                         if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
                         {
-                            redCardCount += 1;
+                            CardCount += 1;
 
                             coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
                         }

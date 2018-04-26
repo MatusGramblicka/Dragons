@@ -43,7 +43,16 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.lblRedCardCount = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.lblGoldCardCount = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblBlackCardCount = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lblGreenCardCount = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lblBlueCardCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlayField)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPlayerCards)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbCardDeck)).BeginInit();
@@ -204,21 +213,111 @@
             this.label7.Size = new System.Drawing.Size(119, 39);
             this.label7.TabIndex = 15;
             // 
+            // lblRedCardCount
+            // 
+            this.lblRedCardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblRedCardCount.Location = new System.Drawing.Point(1439, 152);
+            this.lblRedCardCount.Name = "lblRedCardCount";
+            this.lblRedCardCount.Size = new System.Drawing.Size(39, 15);
+            this.lblRedCardCount.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label9.Location = new System.Drawing.Point(1369, 153);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(58, 15);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Red color:";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1380, 222);
+            this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label8.Location = new System.Drawing.Point(1369, 168);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(35, 13);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "label8";
+            this.label8.Size = new System.Drawing.Size(60, 15);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Gold color:";
+            // 
+            // lblGoldCardCount
+            // 
+            this.lblGoldCardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblGoldCardCount.Location = new System.Drawing.Point(1439, 167);
+            this.lblGoldCardCount.Name = "lblGoldCardCount";
+            this.lblGoldCardCount.Size = new System.Drawing.Size(39, 15);
+            this.lblGoldCardCount.TabIndex = 18;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label11.Location = new System.Drawing.Point(1369, 199);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(65, 15);
+            this.label11.TabIndex = 23;
+            this.label11.Text = "Black color:";
+            // 
+            // lblBlackCardCount
+            // 
+            this.lblBlackCardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBlackCardCount.Location = new System.Drawing.Point(1439, 198);
+            this.lblBlackCardCount.Name = "lblBlackCardCount";
+            this.lblBlackCardCount.Size = new System.Drawing.Size(39, 15);
+            this.lblBlackCardCount.TabIndex = 22;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label13.Location = new System.Drawing.Point(1369, 184);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(67, 15);
+            this.label13.TabIndex = 21;
+            this.label13.Text = "Green color:";
+            // 
+            // lblGreenCardCount
+            // 
+            this.lblGreenCardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblGreenCardCount.Location = new System.Drawing.Point(1439, 183);
+            this.lblGreenCardCount.Name = "lblGreenCardCount";
+            this.lblGreenCardCount.Size = new System.Drawing.Size(39, 15);
+            this.lblGreenCardCount.TabIndex = 20;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label15.Location = new System.Drawing.Point(1369, 214);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(59, 15);
+            this.label15.TabIndex = 25;
+            this.label15.Text = "Blue color:";
+            // 
+            // lblBlueCardCount
+            // 
+            this.lblBlueCardCount.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lblBlueCardCount.Location = new System.Drawing.Point(1439, 213);
+            this.lblBlueCardCount.Name = "lblBlueCardCount";
+            this.lblBlueCardCount.Size = new System.Drawing.Size(39, 15);
+            this.lblBlueCardCount.TabIndex = 24;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1797, 1001);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.lblBlueCardCount);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.lblBlackCardCount);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.lblGreenCardCount);
             this.Controls.Add(this.label8);
+            this.Controls.Add(this.lblGoldCardCount);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.lblRedCardCount);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -267,7 +366,16 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblRedCardCount;
+        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label lblGoldCardCount;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblBlackCardCount;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lblGreenCardCount;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lblBlueCardCount;
     }
 }
 
