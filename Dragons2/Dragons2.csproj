@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="BlackDragonAction.cs" />
     <Compile Include="BlueDragonAction.cs" />
+    <Compile Include="Coordinates.cs" />
     <Compile Include="DeckCards.cs" />
     <Compile Include="DragonAction.cs" />
     <Compile Include="Form1.cs">
