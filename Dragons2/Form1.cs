@@ -370,31 +370,13 @@ namespace Dragons2
         private void CountDragonColorsOnPlayField(string[,] colorSet)
         {
             int CardCount = 0;
-            List<int> CardCounts = new List<int>();
-            List<int> goldCardCounts = new List<int>();
-            List<int> greenCardCounts = new List<int>();
-            List<int> blackCardCounts = new List<int>();
-            List<int> blueCardCounts = new List<int>();
+            List<int> CardCounts = new List<int>();           
 
             List<Coordinates> coordinatesOfFollowingCard = new List<Coordinates>();
 
             List<string> colors = new List<string>() { "r", "o", "v", "n", "b" };        // it will iterate over all colors
-            Dictionary<string, bool> firstColorOccurency = new Dictionary<string, bool>()
-            {
-                { colors[0], false },
-                { colors[1], false },
-                { colors[2], false },
-                { colors[3], false },
-                { colors[4], false }
-            };
-            Dictionary<string, int> colorCardCount = new Dictionary<string, int>()
-            {
-                { colors[0], 0 },
-                { colors[1], 0 },
-                { colors[2], 0 },
-                { colors[3], 0 },
-                { colors[4], 0 }
-            };
+           
+        
             Dictionary<string, string> dragonCardTransformation = new Dictionary<string, string>()
             {
                 { colors[0], "rrrr" },
@@ -403,6 +385,15 @@ namespace Dragons2
                 { colors[3], "nnnn" },
                 { colors[4], "bbbb" }
             };
+            Dictionary<string, bool> isThereAtLeastOneCard = new Dictionary<string, bool>()
+            {
+                { colors[0], false },
+                { colors[1], false },
+                { colors[2], false },
+                { colors[3], false },
+                { colors[4], false }
+            };
+
 
 
 
@@ -422,15 +413,24 @@ namespace Dragons2
                         if(colorSet[row, column] == "b")           // if blanc card iterate for next card
                             continue;
 
-                        if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj" ||
-                            (colorSet[row, column].Substring(0, 2) == "ar" || colorSet[row, column].Substring(0, 2) == "ao" || colorSet[row, column].Substring(0, 2) == "av" ||
-                            colorSet[row, column].Substring(0, 2) == "an" || colorSet[row, column].Substring(0, 2) == "ab"))
+                        if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj")
                         {
-                            colorSet[row, column] = dragonCardTransformation[color] + "x"; // if card is silver dragon or colorful dragon(first letter 1 is clipped) or red action cardtransform it on full (red, gold, green, black, blue) dragon card + "x" letter for to be able do next transformation
+                            colorSet[row, column] = dragonCardTransformation[color] + "x"; // if card is silver dragon or colorful dragon(first letter 1 is clipped), transform it on full (red, gold, green, black, blue) dragon card + "x" letter for to be able do next transformation
                         }
-                        else if(colorSet[row, column].Length == 5 /*|| colorSet[row, column].Substring(4, 1) == "x"*/)          // for example vvvvx change it on for example nnnnx
+                        else if(colorSet[row, column].Substring(0, 2) == "ar")              // If there is action card, transform it on it on full dragon card + "a"
+                            colorSet[row, column] = dragonCardTransformation[colors[0]] + "a";
+                        else if(colorSet[row, column].Substring(0, 2) == "ao")
+                            colorSet[row, column] = dragonCardTransformation[colors[1]] + "a";
+                        else if(colorSet[row, column].Substring(0, 2) == "av")
+                            colorSet[row, column] = dragonCardTransformation[colors[2]] + "a";
+                        else if(colorSet[row, column].Substring(0, 2) == "an")
+                            colorSet[row, column] = dragonCardTransformation[colors[3]] + "a";
+                        else if(colorSet[row, column].Substring(0, 2) == "ab")
+                            colorSet[row, column] = dragonCardTransformation[colors[4]] + "a";
+                        else if(colorSet[row, column].Length == 5 /*|| colorSet[row, column].Substring(4, 1) == "x"*/)          // transform full dragon card + "x" to the particular color based on iteraton, for example vvvvx change it on for example nnnnx
                         {
-                            colorSet[row, column] = dragonCardTransformation[color] + "x";
+                            if(colorSet[row, column].Substring(4, 1) == "x")
+                                colorSet[row, column] = dragonCardTransformation[color] + "x";
                         }
                     }
                 }
@@ -687,25 +687,27 @@ namespace Dragons2
             bool check3thColorLeftCard = true;
             int localColumn = column - 1;
 
-
-            if(!cardAlreadyChecked[row, localColumn])                // have we compare with this card already?
+            if(localColumn >= 0)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
-
-                if(!added)                                          // card was not already added
+                if(!cardAlreadyChecked[row, localColumn])                // have we compare with this card already?
                 {
-                    string leftCard = colorSet[row, localColumn];
+                    bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
 
-                    if(leftCard != "b")
+                    if(!added)                                          // card was not already added
                     {
-                        string leftCardUpperRightcolor = leftCard.Substring(1, 1);
+                        string leftCard = colorSet[row, localColumn];
 
-                        if(currentCardFirstColor == leftCardUpperRightcolor)
+                        if(leftCard != "b")
                         {
-                            CardCount += 1;
-                            check3thColorLeftCard = false;
+                            string leftCardUpperRightcolor = leftCard.Substring(1, 1);
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            if(currentCardFirstColor == leftCardUpperRightcolor)
+                            {
+                                CardCount += 1;
+                                check3thColorLeftCard = false;
+
+                                coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            }
                         }
                     }
                 }
@@ -719,24 +721,27 @@ namespace Dragons2
             bool check2thColorUpperCard = true;
             int localRow = row - 1;
 
-            if(!cardAlreadyChecked[localRow, column])                // have we compare with this card already?
+            if(localRow >= 0)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
-
-                if(!added)                                          // card was not already added
+                if(!cardAlreadyChecked[localRow, column])                // have we compare with this card already?
                 {
-                    string upCard = colorSet[localRow, column];
+                    bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
 
-                    if(upCard != "b")
+                    if(!added)                                          // card was not already added
                     {
-                        string upCardLowerLeftcolor = upCard.Substring(2, 1);
+                        string upCard = colorSet[localRow, column];
 
-                        if(currentCardFirstColor == upCardLowerLeftcolor)
+                        if(upCard != "b")
                         {
-                            CardCount += 1;
-                            check2thColorUpperCard = false;
+                            string upCardLowerLeftcolor = upCard.Substring(2, 1);
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                            if(currentCardFirstColor == upCardLowerLeftcolor)
+                            {
+                                CardCount += 1;
+                                check2thColorUpperCard = false;
+
+                                coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                            }
                         }
                     }
                 }
@@ -749,23 +754,26 @@ namespace Dragons2
         {
             int localRow = row - 1;
 
-            if(!cardAlreadyChecked[localRow, column])                // have we compared with this card already?
+            if(localRow >= 0)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
-
-                if(!added)                                          // card was not already added
+                if(!cardAlreadyChecked[localRow, column])                // have we compared with this card already?
                 {
-                    string upCard = colorSet[localRow, column];
+                    bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
 
-                    if(upCard != "b")
+                    if(!added)                                          // card was not already added
                     {
-                        string upCardLowerRightColor = upCard.Substring(3, 1);
+                        string upCard = colorSet[localRow, column];
 
-                        if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
+                        if(upCard != "b")
                         {
-                            CardCount += 1;
+                            string upCardLowerRightColor = upCard.Substring(3, 1);
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                            if(check2thColorUpperCard && currentCardSecondColor == upCardLowerRightColor)
+                            {
+                                CardCount += 1;
+
+                                coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                            }
                         }
                     }
                 }
@@ -777,24 +785,27 @@ namespace Dragons2
             bool check4thColorRightCard = true;
             int localColumn = column + 1;
 
-            if(!cardAlreadyChecked[row, localColumn])                // have we compared with this card already?
+            if(cardAlreadyChecked.GetLength(1) - 1 >= localColumn)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
-
-                if(!added)                                          // card was not already added
+                if(!cardAlreadyChecked[row, localColumn])                // have we compared with this card already?
                 {
-                    string rightCard = colorSet[row, localColumn];
+                    bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
 
-                    if(rightCard != "b")
+                    if(!added)                                          // card was not already added
                     {
-                        string rightCardUpperLeftColor = rightCard.Substring(0, 1);
+                        string rightCard = colorSet[row, localColumn];
 
-                        if(currentCardSecondColor == rightCardUpperLeftColor)
+                        if(rightCard != "b")
                         {
-                            CardCount += 1;
-                            check4thColorRightCard = false;
+                            string rightCardUpperLeftColor = rightCard.Substring(0, 1);
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            if(currentCardSecondColor == rightCardUpperLeftColor)
+                            {
+                                CardCount += 1;
+                                check4thColorRightCard = false;
+
+                                coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            }
                         }
                     }
                 }
@@ -807,23 +818,26 @@ namespace Dragons2
         {
             int localColumn = column - 1;
 
-            if(!cardAlreadyChecked[row, localColumn])                // have we compared with this card already?
+            if(localColumn >= 0)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
-
-                if(!added)                                          // card was not already added
+                if(!cardAlreadyChecked[row, localColumn])                // have we compared with this card already?
                 {
-                    string leftCard = colorSet[row, localColumn];
+                    bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
 
-                    if(leftCard != "b")
+                    if(!added)                                          // card was not already added
                     {
-                        string leftCardLowerRightcolor = leftCard.Substring(3, 1);
+                        string leftCard = colorSet[row, localColumn];
 
-                        if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
+                        if(leftCard != "b")
                         {
-                            CardCount += 1;
+                            string leftCardLowerRightcolor = leftCard.Substring(3, 1);
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            if(check3thColorLeftCard && currentCardThirdColor == leftCardLowerRightcolor)
+                            {
+                                CardCount += 1;
+
+                                coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            }
                         }
                     }
                 }
@@ -835,24 +849,27 @@ namespace Dragons2
             bool check4thColorLowerCard = true;
             int localRow = row + 1;
 
-            if(!cardAlreadyChecked[localRow, column])                // have we compared with this card already?
+            if(cardAlreadyChecked.GetLength(0) - 1 >= localRow)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
-
-                if(!added)                                          // card was not already added
+                if(!cardAlreadyChecked[localRow, column])                // have we compared with this card already?
                 {
-                    string downCard = colorSet[localRow, column];
+                    bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
 
-                    if(downCard != "b")
+                    if(!added)                                          // card was not already added
                     {
-                        string downCardUpperLeftColor = downCard.Substring(0, 1);
+                        string downCard = colorSet[localRow, column];
 
-                        if(currentCardThirdColor == downCardUpperLeftColor)
+                        if(downCard != "b")
                         {
-                            CardCount += 1;
-                            check4thColorLowerCard = false;
+                            string downCardUpperLeftColor = downCard.Substring(0, 1);
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                            if(currentCardThirdColor == downCardUpperLeftColor)
+                            {
+                                CardCount += 1;
+                                check4thColorLowerCard = false;
+
+                                coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                            }
                         }
                     }
                 }
@@ -865,23 +882,29 @@ namespace Dragons2
         {
             int localRow = row + 1;
 
-            if(!cardAlreadyChecked[localRow, column])                // have we compared with this card already?
+            if(cardAlreadyChecked.GetLength(0) - 1 >= localRow)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
-
-                if(!added)                                          // card was not already added
+                if(cardAlreadyChecked.GetLength(0) - 1 >= localRow)
                 {
-                    string downCard = colorSet[localRow, column];
-
-                    if(downCard != "b")
+                    if(!cardAlreadyChecked[localRow, column])                // have we compared with this card already?
                     {
-                        string downCardUpperRightColor = downCard.Substring(1, 1);
+                        bool added = IsAlreadyAdded(coordinatesOfFollowingCard, localRow, column);
 
-                        if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
+                        if(!added)                                          // card was not already added
                         {
-                            CardCount += 1;
+                            string downCard = colorSet[localRow, column];
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                            if(downCard != "b")
+                            {
+                                string downCardUpperRightColor = downCard.Substring(1, 1);
+
+                                if(check4thColorLowerCard && currentCardFourthColor == downCardUpperRightColor)
+                                {
+                                    CardCount += 1;
+
+                                    coordinatesOfFollowingCard.Add(new Coordinates(localRow, column, true));       // next card to check (card has at least 1 same color)
+                                }
+                            }
                         }
                     }
                 }
@@ -892,23 +915,26 @@ namespace Dragons2
         {
             int localColumn = column + 1;
 
-            if(!cardAlreadyChecked[row, localColumn])                // have we compared with this card already?
+            if(cardAlreadyChecked.GetLength(1) - 1 >= localColumn)
             {
-                bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
-
-                if(!added)                                          // card was not already added
+                if(!cardAlreadyChecked[row, localColumn])                // have we compared with this card already?
                 {
-                    string rightCard = colorSet[row, localColumn];
+                    bool added = IsAlreadyAdded(coordinatesOfFollowingCard, row, localColumn);
 
-                    if(rightCard != "b")
+                    if(!added)                                          // card was not already added
                     {
-                        string rightCardLowerLeftColor = rightCard.Substring(2, 1);
+                        string rightCard = colorSet[row, localColumn];
 
-                        if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
+                        if(rightCard != "b")
                         {
-                            CardCount += 1;
+                            string rightCardLowerLeftColor = rightCard.Substring(2, 1);
 
-                            coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            if(check4thColorRightCard && currentCardFourthColor == rightCardLowerLeftColor)
+                            {
+                                CardCount += 1;
+
+                                coordinatesOfFollowingCard.Add(new Coordinates(row, localColumn, true));       // next card to check (card has at least 1 same color)
+                            }
                         }
                     }
                 }
