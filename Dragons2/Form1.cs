@@ -625,31 +625,31 @@ namespace Dragons2
                 {
                     case "r":
                         lblRedCardCount.Text = CardCount.ToString();
-                        if(CardCount == 7)
+                        if(CardCount >= 7)
                             EndGame(color);
                         CardCount = 0;
                         break;
                     case "o":
                         lblGoldCardCount.Text = CardCount.ToString();
-                        if(CardCount == 7)
+                        if(CardCount >= 7)
                             EndGame(color);
                         CardCount = 0;
                         break;
                     case "v":
                         lblGreenCardCount.Text = CardCount.ToString();
-                        if(CardCount == 7)
+                        if(CardCount >= 7)
                             EndGame(color);
                         CardCount = 0;
                         break;
                     case "n":
                         lblBlackCardCount.Text = CardCount.ToString();
-                        if(CardCount == 7)
+                        if(CardCount >= 7)
                             EndGame(color);
                         CardCount = 0;
                         break;
                     case "b":
                         lblBlueCardCount.Text = CardCount.ToString();
-                        if(CardCount == 7)
+                        if(CardCount >= 7)
                             EndGame(color);
                         CardCount = 0;
                         break;
