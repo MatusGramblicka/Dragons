@@ -16,11 +16,11 @@ namespace Dragons2
         List<String> cards = new List<string>(66);
         List<int> position = new List<int>(5) { 1, 2, 3, 4, 5 };
         LinkedList<String> dragonsColors = new LinkedList<string>();
-        readonly string blancCard = @"C:\Users\Slayer1\Desktop\Cards\Blanc.bmp";
-        readonly string silverDragon = @"C:\Users\Slayer1\Desktop\Cards\SilverDragon.png";
-        readonly string stringDeckCards = @"C:\Users\Slayer1\Desktop\Cards\All\";
-        readonly string startingDragon = @"C:\Users\Slayer1\Desktop\Cards\Starting cards\";
-        readonly string ForegroundCard = @"C:\Users\Slayer1\Desktop\Cards\Foreground Card.png";
+        readonly string blancCard = @"\Cards\Blanc.bmp";
+        readonly string silverDragon = @"\Cards\SilverDragon.png";
+        readonly string stringDeckCards = @"\Cards\All\";
+        readonly string startingDragon = @"\Cards\Starting cards\";
+        readonly string ForegroundCard = @"\Cards\Foreground Card.png";
               
 
         string selectedCardName = null;
