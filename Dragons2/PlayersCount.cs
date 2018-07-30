@@ -17,6 +17,12 @@ namespace Dragons2
         public PlayersCount(Form1 form1)
         {
             InitializeComponent();
+
+            UnvisibleComponents();
+
+            groupBox1.Visible = false;
+            button1.Visible = false;
+
             this.form1 = form1;
         }
 
@@ -43,6 +49,52 @@ namespace Dragons2
             form1.UpgradeNumberOfPlayersLabel(playersCount);
 
             Close();
+        }
+
+        private void btnMultiplayer_Click(object sender, EventArgs e)
+        {
+            groupBox1.Visible = false;
+            button1.Visible = false;
+
+            VisibleComponents();
+
+            //serverSocket.Start();
+            //txtServerConsole.Text = "Chat Server Started ....";
+
+            //backgroundWorker1.RunWorkerAsync(true);
+        }
+
+        private void VisibleComponents()
+        {
+            btnMultiplayer.Visible = false;
+            label1.Visible = true;
+            txtName.Visible = true;
+            txtClientConsole.Visible = true;
+            txtMessage.Visible = true;
+            txtServerConsole.Visible = true;
+            dataGridView1.Visible = true;
+
+            btnSinglePlayer.Visible = false;
+        }
+
+        private void UnvisibleComponents()
+        {
+            label1.Visible = false;
+            txtName.Visible = false;
+            txtClientConsole.Visible = false;
+            txtMessage.Visible = false;
+            btnSendMessages.Visible = false;
+            btnConncetUser.Visible = false;
+            txtServerConsole.Visible = false;
+            dataGridView1.Visible = false;
+        }
+
+        private void btnSinglePlayer_Click(object sender, EventArgs e)
+        {
+            groupBox1.Visible = true;
+            button1.Visible = true;
+            btnSinglePlayer.Visible = false;
+            btnMultiplayer.Visible = false;
         }
     }
 }
