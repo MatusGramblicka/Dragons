@@ -48,6 +48,8 @@
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnSinglePlayer = new System.Windows.Forms.Button();
+            this.btnHost = new System.Windows.Forms.Button();
+            this.btnJoin = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -114,7 +116,7 @@
             this.groupBox1.Controls.Add(this.radioButton3);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Location = new System.Drawing.Point(79, 26);
+            this.groupBox1.Location = new System.Drawing.Point(62, 25);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(133, 142);
             this.groupBox1.TabIndex = 5;
@@ -123,7 +125,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(257, 144);
+            this.button1.Location = new System.Drawing.Point(81, 200);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 6;
@@ -133,7 +135,7 @@
             // 
             // btnMultiplayer
             // 
-            this.btnMultiplayer.Location = new System.Drawing.Point(257, 85);
+            this.btnMultiplayer.Location = new System.Drawing.Point(90, 87);
             this.btnMultiplayer.Name = "btnMultiplayer";
             this.btnMultiplayer.Size = new System.Drawing.Size(75, 23);
             this.btnMultiplayer.TabIndex = 7;
@@ -143,11 +145,11 @@
             // 
             // txtServerConsole
             // 
-            this.txtServerConsole.Location = new System.Drawing.Point(26, 192);
+            this.txtServerConsole.Location = new System.Drawing.Point(12, 229);
             this.txtServerConsole.Multiline = true;
             this.txtServerConsole.Name = "txtServerConsole";
             this.txtServerConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtServerConsole.Size = new System.Drawing.Size(375, 166);
+            this.txtServerConsole.Size = new System.Drawing.Size(375, 41);
             this.txtServerConsole.TabIndex = 15;
             // 
             // dataGridView1
@@ -157,7 +159,7 @@
             this.Column1,
             this.Column2,
             this.Column3});
-            this.dataGridView1.Location = new System.Drawing.Point(429, 410);
+            this.dataGridView1.Location = new System.Drawing.Point(382, 317);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(240, 150);
             this.dataGridView1.TabIndex = 22;
@@ -179,7 +181,7 @@
             // 
             // btnSendMessages
             // 
-            this.btnSendMessages.Location = new System.Drawing.Point(183, 626);
+            this.btnSendMessages.Location = new System.Drawing.Point(133, 444);
             this.btnSendMessages.Name = "btnSendMessages";
             this.btnSendMessages.Size = new System.Drawing.Size(99, 23);
             this.btnSendMessages.TabIndex = 21;
@@ -188,7 +190,7 @@
             // 
             // btnConncetUser
             // 
-            this.btnConncetUser.Location = new System.Drawing.Point(257, 411);
+            this.btnConncetUser.Location = new System.Drawing.Point(135, 303);
             this.btnConncetUser.Name = "btnConncetUser";
             this.btnConncetUser.Size = new System.Drawing.Size(75, 23);
             this.btnConncetUser.TabIndex = 20;
@@ -197,23 +199,23 @@
             // 
             // txtClientConsole
             // 
-            this.txtClientConsole.Location = new System.Drawing.Point(59, 449);
+            this.txtClientConsole.Location = new System.Drawing.Point(12, 335);
             this.txtClientConsole.Multiline = true;
             this.txtClientConsole.Name = "txtClientConsole";
             this.txtClientConsole.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtClientConsole.Size = new System.Drawing.Size(364, 127);
+            this.txtClientConsole.Size = new System.Drawing.Size(364, 65);
             this.txtClientConsole.TabIndex = 19;
             // 
             // txtMessage
             // 
-            this.txtMessage.Location = new System.Drawing.Point(62, 600);
+            this.txtMessage.Location = new System.Drawing.Point(12, 418);
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.Size = new System.Drawing.Size(350, 20);
             this.txtMessage.TabIndex = 18;
             // 
             // txtName
             // 
-            this.txtName.Location = new System.Drawing.Point(257, 384);
+            this.txtName.Location = new System.Drawing.Point(135, 276);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(184, 20);
             this.txtName.TabIndex = 17;
@@ -221,7 +223,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 384);
+            this.label1.Location = new System.Drawing.Point(21, 279);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(108, 13);
             this.label1.TabIndex = 16;
@@ -229,7 +231,7 @@
             // 
             // btnSinglePlayer
             // 
-            this.btnSinglePlayer.Location = new System.Drawing.Point(257, 45);
+            this.btnSinglePlayer.Location = new System.Drawing.Point(90, 48);
             this.btnSinglePlayer.Name = "btnSinglePlayer";
             this.btnSinglePlayer.Size = new System.Drawing.Size(75, 23);
             this.btnSinglePlayer.TabIndex = 23;
@@ -238,11 +240,32 @@
             this.btnSinglePlayer.UseVisualStyleBackColor = true;
             this.btnSinglePlayer.Click += new System.EventHandler(this.btnSinglePlayer_Click);
             // 
+            // btnHost
+            // 
+            this.btnHost.Location = new System.Drawing.Point(157, 48);
+            this.btnHost.Name = "btnHost";
+            this.btnHost.Size = new System.Drawing.Size(75, 23);
+            this.btnHost.TabIndex = 24;
+            this.btnHost.Text = "Host";
+            this.btnHost.UseVisualStyleBackColor = true;
+            this.btnHost.Click += new System.EventHandler(this.btnHost_Click);
+            // 
+            // btnJoin
+            // 
+            this.btnJoin.Location = new System.Drawing.Point(157, 84);
+            this.btnJoin.Name = "btnJoin";
+            this.btnJoin.Size = new System.Drawing.Size(75, 23);
+            this.btnJoin.TabIndex = 25;
+            this.btnJoin.Text = "Join";
+            this.btnJoin.UseVisualStyleBackColor = true;
+            // 
             // PlayersCount
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(517, 701);
+            this.ClientSize = new System.Drawing.Size(517, 495);
+            this.Controls.Add(this.btnJoin);
+            this.Controls.Add(this.btnHost);
             this.Controls.Add(this.btnSinglePlayer);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnSendMessages);
@@ -250,9 +273,9 @@
             this.Controls.Add(this.txtClientConsole);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.txtName);
+            this.Controls.Add(this.btnMultiplayer);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtServerConsole);
-            this.Controls.Add(this.btnMultiplayer);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Name = "PlayersCount";
@@ -288,5 +311,7 @@
         private System.Windows.Forms.TextBox txtName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSinglePlayer;
+        private System.Windows.Forms.Button btnHost;
+        private System.Windows.Forms.Button btnJoin;
     }
 }

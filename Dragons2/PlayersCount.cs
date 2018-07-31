@@ -22,8 +22,12 @@ namespace Dragons2
 
             groupBox1.Visible = false;
             button1.Visible = false;
+            btnHost.Visible = false;
+            btnJoin.Visible = false;
 
             this.form1 = form1;
+
+            ClientSize = new Size(217, 201);
         }
 
         private void PlayersCount_Load(object sender, EventArgs e)
@@ -53,15 +57,12 @@ namespace Dragons2
 
         private void btnMultiplayer_Click(object sender, EventArgs e)
         {
-            groupBox1.Visible = false;
-            button1.Visible = false;
+            ClientSize = new Size(300, 300);
 
-            VisibleComponents();
-
-            //serverSocket.Start();
-            //txtServerConsole.Text = "Chat Server Started ....";
-
-            //backgroundWorker1.RunWorkerAsync(true);
+            btnSinglePlayer.Visible = false;
+            btnMultiplayer.Visible = false;
+            btnHost.Visible = true;
+            btnJoin.Visible = true;
         }
 
         private void VisibleComponents()
@@ -91,10 +92,31 @@ namespace Dragons2
 
         private void btnSinglePlayer_Click(object sender, EventArgs e)
         {
+            ClientSize = new Size(300, 300);
+
             groupBox1.Visible = true;
             button1.Visible = true;
             btnSinglePlayer.Visible = false;
             btnMultiplayer.Visible = false;
+            btnHost.Visible = false;
+            btnJoin.Visible = false;
+        }
+
+        private void btnHost_Click(object sender, EventArgs e)
+        {
+            ClientSize = new Size(533, 534);
+
+            groupBox1.Visible = false;
+            button1.Visible = false;
+            btnHost.Visible = false;
+            btnJoin.Visible = false;
+
+            VisibleComponents();
+
+            //serverSocket.Start();
+            //txtServerConsole.Text = "Chat Server Started ....";
+
+            //backgroundWorker1.RunWorkerAsync(true);
         }
     }
 }
