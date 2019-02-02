@@ -337,7 +337,7 @@ namespace Dragons2
             numberOfTurns += 1;
             UpgradeCounterLabel(numberOfTurns);
 
-            if(!BlackDragonAction.SecondPhaseBlackDragonActionDontSaveCards)     // if tehre were black dragon action(card changing) dont save cards from players hand to current player, because cards are set properly after action
+            if(!BlackDragonAction.SecondPhaseBlackDragonActionDontSaveCards)     // if there were black dragon action(card changing) dont save cards from players hand to current player, because cards are set properly after action
             {
                 SavePlayersCards();                
             }
@@ -1031,24 +1031,28 @@ namespace Dragons2
         {
             int playersCardsCount = players[playerIndex].playersCards.Count;
             for(int i = 0; i < playersCardsCount; i++)
-            {
-                Image imageInput = null;
+            {                
+                //Image imageInput = null;              
                 int row = playerCardsRow;
-                int column = playerCardsColumn;
-                
-                DataGridViewImageCell cellPlayerCardsInput = (DataGridViewImageCell)dgvPlayerCards.Rows[row].Cells[column];
+                int column = playerCardsColumn;                
+
+                //DataGridViewImageCell cellPlayerCardsInput = (DataGridViewImageCell)dgvPlayerCards.Rows[row].Cells[column];
 
                 string cardname = players[playerIndex].playersCards[i];
 
-                imageInput = RotateToOriginal(ref cardname);                
+                //Image imageInput = RotateToOriginalIfNeed(ref cardname);                
 
+                /*
                 cellPlayerCardsInput.ImageLayout = DataGridViewImageCellLayout.Stretch;
                 cellPlayerCardsInput.Value = imageInput;
                 cellPlayerCardsInput.Tag = cardname; // name of card, https://stackoverflow.com/questions/33689250/how-do-i-get-the-bitmap-name-when-i-click-the-image-in-datagridview 
+                */
+                dgvPlayerCards.Rows[row].Cells[column].Value = RotateToOriginalIfNeed(ref cardname);
+                dgvPlayerCards.Rows[row].Cells[column].Tag = cardname; // name of card, https://stackoverflow.com/questions/33689250/how-do-i-get-the-bitmap-name-when-i-click-the-image-in-datagridview 
 
 
                 playerCardsRow = GridControl.recomputeRow(row, column);
-                playerCardsColumn = GridControl.recomputeColumn(column);
+                playerCardsColumn = GridControl.recomputeColumn(column);                   
             }
         }
 
@@ -1057,37 +1061,45 @@ namespace Dragons2
         /// </summary>
         /// <param name="cardname"></param>
         /// <returns></returns>
-        private Image RotateToOriginal(ref string cardname)
+        private Image RotateToOriginalIfNeed(ref string cardname)
         {
-            Image imageInput = null;
+            //Image imageInput = null;
             string fileName = stringDeckCards + cardname + ".png";
 
-            if(verifyCardPresentInFileFolder(fileName))
+            //if(verifyCardPresentInFileFolder(fileName))
+            if(File.Exists(fileName))
             {
-                imageInput = Image.FromFile(fileName);
+                //imageInput = Image.FromFile(fileName);
+                return Image.FromFile(fileName);
             }
             else
             {
                 cardname = GlobalMethods.rotateColorsInCardName(cardname);
 
                 string fileNameRotatedToOriginal = stringDeckCards + cardname + ".png";
-                imageInput = Image.FromFile(fileNameRotatedToOriginal);
+                //imageInput = Image.FromFile(fileNameRotatedToOriginal);
+                return Image.FromFile(fileNameRotatedToOriginal);
             }
 
-            return imageInput;
+            //return imageInput;
         }
 
         private bool verifyCardPresentInFileFolder(string fileName)
         {
+            return File.Exists(fileName);
+            /*
             try
             {              
-                Image imageInput = Image.FromFile(fileName);
+                //Image imageInput = Image.FromFile(fileName);
+                //Image.FromFile(fileName);
+                File.Exists(fileName);
                 return true;
             }
             catch(Exception e)
             {
                 return false;
             }
+            */
         }
 
         private void UpgradeCounterLabel(int numberOfTurns)
@@ -2308,6 +2320,7 @@ namespace Dragons2
 
         private void dgvPlayField_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            // Rotate card
             if (e.Button == MouseButtons.Right)
             {
                 if (GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction)
