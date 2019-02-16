@@ -94,7 +94,7 @@ namespace Dragons2
             pb3.Image = Image.FromFile(ForegroundCard);
             pb4.Image = Image.FromFile(ForegroundCard);
             pb5.Image = Image.FromFile(ForegroundCard);
-
+            
             ShowNextPlayerDragonCard(0);
 
             createPlayerCards();
@@ -167,7 +167,7 @@ namespace Dragons2
 
         private void putSilverDragon()
         {
-            Bitmap bmp = (Bitmap)Bitmap.FromFile(silverDragon);
+            Image bmp = Image.FromFile(silverDragon);
 
             DataGridViewImageCell iCell = new DataGridViewImageCell();
             iCell.ImageLayout = DataGridViewImageCellLayout.Stretch;
@@ -253,6 +253,8 @@ namespace Dragons2
                     dgvPlayerCards.Rows[i].Cells[j].Tag = BlancCardString;
                 }
             }
+
+            image.Dispose();
         }
 
         private void dgvPlayField_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -948,18 +950,23 @@ namespace Dragons2
             switch(players[playerIndex].Position)
             {
                 case 1:
+                    pb1.Image.Dispose();
                     pb1.Image = Image.FromFile(ForegroundCard);
                     break;
                 case 2:
+                    pb2.Image.Dispose();
                     pb2.Image = Image.FromFile(ForegroundCard);
                     break;
                 case 3:
+                    pb3.Image.Dispose();
                     pb3.Image = Image.FromFile(ForegroundCard);
                     break;
                 case 4:
+                    pb4.Image.Dispose();
                     pb4.Image = Image.FromFile(ForegroundCard);
                     break;
                 case 5:
+                    pb5.Image.Dispose();
                     pb5.Image = Image.FromFile(ForegroundCard);
                     break;
             }            
@@ -970,18 +977,23 @@ namespace Dragons2
             switch(players[playerIndex].Position)
             {
                 case 1:
+                    pb1.Image.Dispose();
                     pb1.Image = Image.FromFile(startingDragon + players[playerIndex].PlayerDragonColor + ".png");
                     break;
                 case 2:
+                    pb2.Image.Dispose();
                     pb2.Image = Image.FromFile(startingDragon + players[playerIndex].PlayerDragonColor + ".png");
                     break;
                 case 3:
+                    pb3.Image.Dispose();
                     pb3.Image = Image.FromFile(startingDragon + players[playerIndex].PlayerDragonColor + ".png");
                     break;
                 case 4:
+                    pb4.Image.Dispose();
                     pb4.Image = Image.FromFile(startingDragon + players[playerIndex].PlayerDragonColor + ".png");
                     break;
                 case 5:
+                    pb5.Image.Dispose();
                     pb5.Image = Image.FromFile(startingDragon + players[playerIndex].PlayerDragonColor + ".png");
                     break;
             }
