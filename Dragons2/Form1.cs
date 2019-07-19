@@ -13,6 +13,8 @@ namespace Dragons2
 {
     public partial class Form1 : Form
     {
+        Dictionary<string, PictureBox> cardsPcb = new Dictionary<string, PictureBox>();
+
         List<String> cards = new List<string>(66);
         List<int> position = new List<int>(5) { 1, 2, 3, 4, 5 };
         LinkedList<String> dragonsColors = new LinkedList<string>();
@@ -82,10 +84,10 @@ namespace Dragons2
         private void Form1_Load(object sender, EventArgs e)
         {
             disablePictureBoxesClicking();      // clicking on pictureboxes will be used during yellow dragon action
-
-            preparePlayField();
-
+                        
             putSilverDragon();
+
+            addFirst4CardsnextToSilverDragonCard();
 
             setStartingDragon();           
 
@@ -112,6 +114,8 @@ namespace Dragons2
             FirstPhase();
         }
 
+        
+
         private void setStartingDragon()
         {
             string[] startingDragons = DeckCards.getDeckCards(startingDragon);
@@ -131,53 +135,19 @@ namespace Dragons2
                 players[i].Position = position[i];
                 players[i].PlayerDragonColor = dragonsColorsList[position[i] - 1];
             }
-        }        
-
-        private void preparePlayField()
-        {
-            dgvPlayField.RowTemplate.Height = 140;     // https://stackoverflow.com/questions/3370236/changing-the-row-height-of-a-datagridview         
-
-            Image image = Image.FromFile(blancCard);
-            DataGridViewImageColumn[] iconColumn = new DataGridViewImageColumn[13];
-           
-            for (int i = 0; i < iconColumn.Length; i++)
-            {
-                iconColumn[i] = new DataGridViewImageColumn();
-                iconColumn[i].Image = image;
-                iconColumn[i].Name = "Dragon" + i;
-                iconColumn[i].HeaderText = "";
-                iconColumn[i].ImageLayout = DataGridViewImageCellLayout.Stretch;    // will do the trick https://stackoverflow.com/questions/46168609/fit-image-into-datagridview-column?rq=1
-
-                dgvPlayField.Columns.Add(iconColumn[i]);
-                dgvPlayField.Rows[dgvPlayField.NewRowIndex].Cells["Dragon" + i].Tag = BlancCardString;
-                dgvPlayField.Rows[dgvPlayField.NewRowIndex].Cells["Dragon" + i].Value = image;  // https://stackoverflow.com/questions/30802160/image-displaying-a-red-x-in-a-datagridview-when-loading-from-resources
-
-                if (i < 6)
-                    dgvPlayField.Rows.Add();
-            }
-
-            for (int i = 0; i < dgvPlayField.RowCount; i++)       // set tag property to all blanc card
-            {
-                for (int j = 0; j < dgvPlayField.ColumnCount; j++)
-                {
-                    dgvPlayField.Rows[i].Cells[j].Tag = BlancCardString;
-                }
-            }
-        }
+        }       
 
         private void putSilverDragon()
         {
-            Image bmp = Image.FromFile(silverDragon);
+            
+            cardsPcb.Add("silverdragon", new PictureBox());
+            cardsPcb["silverdragon"].Location = new Point(647, 439);
+            cardsPcb["silverdragon"].Image = Image.FromFile(silverDragon);
+        }
 
-            DataGridViewImageCell iCell = new DataGridViewImageCell();
-            iCell.ImageLayout = DataGridViewImageCellLayout.Stretch;
-            iCell.Value = bmp;
-            iCell.Tag = silverDragonString;
-
-            rowMiddle = dgvPlayField.RowCount / 2;
-            columnMiddle = dgvPlayField.ColumnCount / 2;
-           
-            dgvPlayField[columnMiddle, rowMiddle] = iCell;
+        private void addFirst4CardsnextToSilverDragonCard()
+        {
+            
         }
 
 
@@ -973,7 +943,7 @@ namespace Dragons2
         }
 
         private void ShowNextPlayerDragonCard(int playerIndex)
-        {          
+        {            
             switch(players[playerIndex].Position)
             {
                 case 1:
@@ -995,7 +965,7 @@ namespace Dragons2
                 case 5:
                     pb5.Image.Dispose();
                     pb5.Image = Image.FromFile(startingDragon + players[playerIndex].PlayerDragonColor + ".png");
-                    break;
+                    break;               
             }
         }
 
