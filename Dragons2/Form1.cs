@@ -139,41 +139,52 @@ namespace Dragons2
 
         private void putSilverDragon()
         {            
-            cardsPcb.Add("silverdragon", new PictureBox());
-            cardsPcb["silverdragon"].Location = new Point(647, 439);
-            cardsPcb["silverdragon"].Image = Image.FromFile(silverDragon);
-            cardsPcb["silverdragon"].Click += Image_Click;
+            cardsPcb.Add("silverDragon", new PictureBox());
+            cardsPcb["silverDragon"].Location = new Point(647, 439);
+            cardsPcb["silverDragon"].Image = Image.FromFile(silverDragon);
+            cardsPcb["silverDragon"].Name = "silverDragon";
+            cardsPcb["silverDragon"].Tag = "silverDragon";
+            cardsPcb["silverDragon"].Click += Image_Click;
 
-            Controls.Add(cardsPcb["silverdragon"]);
+            Controls.Add(cardsPcb["silverDragon"]);
         }
 
         private void addFirst4CardsnextToSilverDragonCard()
         {
-            int silverDragonXCoor = cardsPcb["silverdragon"].Location.X;
-            int silverDragonYCoor = cardsPcb["silverdragon"].Location.Y;
+            int silverDragonXCoor = cardsPcb["silverDragon"].Location.X;
+            int silverDragonYCoor = cardsPcb["silverDragon"].Location.Y;
 
-            cardsPcb.Add("99,100", new PictureBox());
-            cardsPcb["99,100"].Location = new Point(silverDragonXCoor - cardsPcb["silverdragon"].Width, silverDragonYCoor);
-            cardsPcb["99,100"].Click += Image_Click;
+            cardsPcb.Add("099100", new PictureBox());
+            cardsPcb["099100"].Location = new Point(silverDragonXCoor - cardsPcb["silverDragon"].Width, silverDragonYCoor);
+            cardsPcb["099100"].Name = null;
+            cardsPcb["099100"].Tag = "099100";
+            cardsPcb["099100"].Click += Image_Click;
 
-            cardsPcb.Add("100,99", new PictureBox());
-            cardsPcb["100,99"].Location = new Point(silverDragonXCoor, silverDragonYCoor - cardsPcb["silverdragon"].Height);
-            cardsPcb["100,99"].Click += Image_Click;
+            cardsPcb.Add("100099", new PictureBox());
+            cardsPcb["100099"].Location = new Point(silverDragonXCoor, silverDragonYCoor - cardsPcb["silverDragon"].Height);
+            cardsPcb["100099"].Name = null;
+            cardsPcb["100099"].Tag = "100099";
+            cardsPcb["100099"].Click += Image_Click;
 
-            cardsPcb.Add("101,100", new PictureBox());
-            cardsPcb["101,100"].Location = new Point(silverDragonXCoor + cardsPcb["silverdragon"].Width, silverDragonYCoor);
-            cardsPcb["101,100"].Click += Image_Click;
+            cardsPcb.Add("101100", new PictureBox());
+            cardsPcb["101100"].Location = new Point(silverDragonXCoor + cardsPcb["silverDragon"].Width, silverDragonYCoor);
+            cardsPcb["101100"].Name = null;
+            cardsPcb["101100"].Tag = "101100";
+            cardsPcb["101100"].Click += Image_Click;
 
-            cardsPcb.Add("100,101", new PictureBox());
-            cardsPcb["100,101"].Location = new Point(silverDragonXCoor, silverDragonYCoor + cardsPcb["silverdragon"].Height);
-            cardsPcb["100,101"].Click += Image_Click;
+            cardsPcb.Add("100101", new PictureBox());
+            cardsPcb["100101"].Location = new Point(silverDragonXCoor, silverDragonYCoor + cardsPcb["silverDragon"].Height);
+            cardsPcb["100101"].Name = null;
+            cardsPcb["100101"].Tag = "100101";
+            cardsPcb["100101"].Click += Image_Click;
 
-            Controls.Add(cardsPcb["99,100"]);
-            Controls.Add(cardsPcb["100,99"]);
-            Controls.Add(cardsPcb["101,100"]);
-            Controls.Add(cardsPcb["100,101"]);
+            Controls.Add(cardsPcb["099100"]);
+            Controls.Add(cardsPcb["100099"]);
+            Controls.Add(cardsPcb["101100"]);
+            Controls.Add(cardsPcb["100101"]);
         }
 
+        
 
         private void Get3StartingCardsForAllPlayers(Players[] players, int numberOfPlayers)
         {
@@ -251,6 +262,96 @@ namespace Dragons2
             image.Dispose();
         }
 
+        private void Image_Click(object sender, EventArgs e)
+        {
+            var clickedImage = sender as PictureBox; //??          
+
+
+            if(RedDragonAction.takeFromPlayField_FirstPhaseRedAction)          // take card from playlield when there is red dragon action
+            {
+                RedDragonAction.placeToPlayerSet_SecondPhase = false;   // ban place card to player set from playfield during red action                 
+
+                if(rowRedActCard != 99 && columnRedActCard != 99)
+                {
+                    //if(!((e.RowIndex == rowRedActCard) && (e.ColumnIndex == columnRedActCard)))
+                    if(!((Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3)) == rowRedActCard) &&
+                        (Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) == columnRedActCard)))
+                    {
+                        DeselectCardRedDragonAction(clickedImage, false);
+                    }
+                }
+
+                if(isPaddingPlayField(clickedImage))
+                {
+                    //DeselectCardRedDragonAction(e.RowIndex, e.ColumnIndex, true);
+                    DeselectCardRedDragonAction(clickedImage, true);
+                }
+                else
+                {
+                    SelectCardRedDragonAction(clickedImage);
+
+                    rowRedActCard = Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3));
+                    columnRedActCard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3));
+
+                    RedDragonAction.placeToPlayerSet_SecondPhase = true;        // allow place card to player set from playfield during red action                       
+                }
+            }
+            else
+            {
+                if(!BlueDragonAction.BlueDragonActionFlag && !GoldDragonAction.GoldDragonActionFlag)
+                    //putCardOnPlayField(e.RowIndex, e.ColumnIndex);
+                    putCardOnPlayField(clickedImage);
+            }
+
+            if(GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction)          // take card from playfield when there is green dragon action
+            {
+                if(rowRedActCard != 99 && columnRedActCard != 99)
+                {
+                    if(!((Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3)) == rowRedActCard) &&
+                        (Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) == columnRedActCard)))
+                    {
+                        DeselectCardRedDragonAction(clickedImage, false);
+                    }
+                }
+
+                if(isPaddingPlayField(clickedImage))
+                {
+                    DeselectCardRedDragonAction(clickedImage, true);
+                }
+                else
+                {
+                    SelectCardRedDragonAction(clickedImage);
+
+                    rowRedActCard = Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3));
+                    columnRedActCard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3));
+
+
+                    GreenDragonAction.placeToPlayField_SecondPhaseGreenAction = true;      // allow relocate card from playfield to another place in playfield during green action
+                }
+            }
+
+            WithoutAction = false;
+
+
+            if(!((RedDragonAction.takeFromPlayField_FirstPhaseRedAction) || 
+                (RedDragonAction.placeToPlayerSet_SecondPhase) || 
+                (RedDragonAction.ThirdPhase) ||
+                (GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction) || 
+                (GreenDragonAction.placeToPlayField_SecondPhaseGreenAction)))
+            {
+                if(successPlacingCardOnPlayGround)
+                {
+                    if(cardsToTakeFromDeck > 0)
+                        pbCardDeck.Enabled = true;
+
+
+                    if(cardsToTakeFromDeck == 0)
+                        SetupForNextPlayer();
+                }
+            }
+        }
+
+        /*
         private void dgvPlayField_CellClick(object sender, DataGridViewCellEventArgs e)
         {    
             if (RedDragonAction.takeFromPlayField_FirstPhaseRedAction)          // take card from playlield when there is red dragon action
@@ -283,7 +384,7 @@ namespace Dragons2
                     putCardOnPlayField(e.RowIndex, e.ColumnIndex);
             } 
 
-            if (GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction)          // take card from playlield when there is green dragon action
+            if (GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction)          // take card from playfield when there is green dragon action
             {  
                 if (rowRedActCard != 99 && columnRedActCard != 99)
                 {
@@ -324,6 +425,7 @@ namespace Dragons2
                 }
             }            
         }
+        */
 
         private void SetupForNextPlayer()
         {
@@ -1117,28 +1219,26 @@ namespace Dragons2
             label7.Text = players[numberOfTurns % numberOfPlayers].getMessage();            
         }
 
-        private void SelectCardRedDragonAction(int rowIndex, int columnIndex)
+        private void SelectCardRedDragonAction(PictureBox clickedImage/*int rowIndex, int columnIndex*/)
         {
-            DataGridViewImageCell cellPlayFieldInput = (DataGridViewImageCell)dgvPlayField.Rows[rowIndex].Cells[columnIndex];
-
-            if (cellPlayFieldInput.Tag.ToString() != BlancCardString)                      // if there is any card
+            if (clickedImage.Name != null)                      // if there is any card
             {
-                if (!(cellPlayFieldInput.RowIndex == rowMiddle && cellPlayFieldInput.ColumnIndex == columnMiddle))    // cannot take card on the place where is/was silver dragon card
+                if (!(clickedImage.Name != "silverDragon"))    // cannot take card on the place where is/was silver dragon card
                 {
-                    cellPlayFieldInput.Style = new DataGridViewCellStyle { Padding = newPadding };     // highlights edges
+                    clickedImage.Padding = newPadding;     // highlights edges
 
-                    rowRedActCard = rowIndex;
-                    columnRedActCard = columnIndex;
+                    rowRedActCard = Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3));
+                    columnRedActCard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3));
 
-                    selectedCardImage = (Image)cellPlayFieldInput.Value;
-                    selectedCardName = cellPlayFieldInput.Tag.ToString();
+                    selectedCardImage = clickedImage.Image;
+                    selectedCardName = clickedImage.Name;
                 }
             }
         }
 
-        private void DeselectCardRedDragonAction(int oldPaddingRowLocal, int oldPaddingColumnLocal, bool setOldCards)
+        private void DeselectCardRedDragonAction(PictureBox clickedImage, bool setOldCards)
         {
-            dgvPlayField.Rows[oldPaddingRowLocal].Cells[oldPaddingColumnLocal].Style = new DataGridViewCellStyle { Padding = noPadding };  // set no pading for previous selected card                      
+            clickedImage.Padding = noPadding;  // set no pading for previous selected card                      
 
             if (selectedCardName != null)
                 if (selectedCardName.Substring(0, 1) != actionCardString)
@@ -1154,33 +1254,29 @@ namespace Dragons2
             }
         }
 
-        private void putCardOnPlayField(int RowIndex, int ColumnIndex)
-        {
-            DataGridViewImageCell cellInput = (DataGridViewImageCell)dgvPlayField.Rows[RowIndex].Cells[ColumnIndex];
+        private void putCardOnPlayField(PictureBox clickedImage)
+        {            
             if (selectedCardName != null && selectedCardImage != null)                              // if there is any card chosen
             {
                 if (selectedCardName.Substring(0, 1) != actionCardString)                        // I put action card
                 {
-                    if (!isSilverDragonPlace(RowIndex, ColumnIndex)/*(string)cellInput.Tag != silverDragonString*/ && !GlobalMethods.existAnotherCard(cellInput))    // if card is not putting on Silver dragon place and card is not putting on card that was already put?
-                    {
-                        if (hasNeighboringCard(cellInput))      // is there any adjacent card?
+                    if (clickedImage.Name == null)    // if card is putting on empty card?
+                    {                        
+                        if (isSameColor(clickedImage) || selectedCardName == colorfulDragonString)
                         {
-                            if (isSameColor(cellInput) || selectedCardName == colorfulDragonString)
-                            {
-                                putCardOnPlayField(cellInput);
+                            putCardOnPlayFieldFinal(clickedImage);
 
-                                successPlacingCardOnPlayGround = true;
-                            }
-                        }
+                            successPlacingCardOnPlayGround = true;
+                        }                        
                     }
                 }
-                else if (selectedCardName.Substring(0, 1) == actionCardString && isSilverDragonPlace(RowIndex, ColumnIndex))    // if I want to put action card and I am putting it on the place where is/was Silver dragon card
+                else if (selectedCardName.Substring(0, 1) == actionCardString && isSilverDragonPlace(clickedImage))    // if I want to put action card and I am putting it on the place where is/was Silver dragon card
                 {
                     if ((selectedCardName.Substring(1, 1) == "r" || selectedCardName.Substring(1, 1) == "v") && cardsOnPlayField == 0)      // if there is no cards on playfield and player plays red or green action, card can be only put on silver dragon without preforming action
                     {
                         DialogResult dialogResult = MessageBox.Show("Card will put on the silver dragon card, beacause there is no other action possible cause zero cards are on playfield.", "", MessageBoxButtons.OK);
 
-                        putCardOnPlayField(cellInput);
+                        putCardOnPlayFieldFinal(clickedImage);
 
                         successPlacingCardOnPlayGround = true;
 
@@ -1193,7 +1289,7 @@ namespace Dragons2
                         DialogResult dialogResult = MessageBox.Show("Do you want to put action card on and change the color (yes), or you do not want to change color and so put the car under?", "Where to place action card?", MessageBoxButtons.YesNo);
                         if(dialogResult == DialogResult.Yes)
                         {
-                            putCardOnPlayField(cellInput);
+                            putCardOnPlayFieldFinal(clickedImage);
 
                             DialogResult dialogResult2 = MessageBox.Show(" Do you want also perform action of the card?", "Action card decision?", MessageBoxButtons.YesNo);
                             if(dialogResult2 == DialogResult.Yes)
@@ -1284,9 +1380,19 @@ namespace Dragons2
         }
 
         private void disableClicking(bool use)
-        {
+        {/*
             if (use)
                 dgvPlayField.Enabled = false;
+                */
+            if(use)
+            {
+                foreach(var cards in cardsPcb)
+                {
+                    cards.Value.Enabled = false;
+                }
+            }
+
+
 
             pbCardDeck.Enabled = false;
             dgvPlayerCards.Enabled = false;
@@ -1373,18 +1479,19 @@ namespace Dragons2
             selectedCardImage = null;
         }
 
-        private bool isSilverDragonPlace(int row, int column)
+        private bool isSilverDragonPlace(PictureBox clickedImage)
         {
-            if (dgvPlayField.Rows[row].Cells[column] == dgvPlayField[dgvPlayField.ColumnCount / 2, dgvPlayField.RowCount / 2])
-                return true;
-            else
-                return false;
+            return clickedImage.Name == "silverDragon";
         }
 
-        private void putCardOnPlayField(DataGridViewImageCell cellInput)
-        {            
+        private void putCardOnPlayFieldFinal(PictureBox clickedImage/*DataGridViewImageCell cellInput*/)
+        {            /*
             cellInput.Value = selectedCardImage;
             cellInput.Tag = selectedCardName;       // name of card, https://stackoverflow.com/questions/33689250/how-do-i-get-the-bitmap-name-when-i-click-the-image-in-datagridview 
+            */
+            cardsPcb[clickedImage.Tag.ToString()].Image = selectedCardImage;
+            cardsPcb[clickedImage.Tag.ToString()].Name = selectedCardName;
+
 
             if (!GreenDragonAction.placeToPlayField_SecondPhaseGreenAction)    // do not remove card from player set during second phase of green dragon action 
             {
@@ -1441,23 +1548,25 @@ namespace Dragons2
         /// </summary>
         /// <param name="cellInput">Cell on the playfield where I want to put the card</param>
         /// <returns></returns>
-        private bool isSameColor(DataGridViewImageCell cellInput)
+        private bool isSameColor(PictureBox clickedImage)
         {
             char[] color = new char[4];
             bool[] colorMatch = new bool[4];
 
             color = GlobalMethods.splitCardColor(selectedCardName);
 
-            colorMatch = GetColorMatch(color, cellInput);
+            colorMatch = GetColorMatch(color, clickedImage);
 
             getCountOfCardsToTakeFromDeck(color, colorMatch);
 
+            return IsColorMatch(colorMatch);
+            /*
             bool isColorMatch = IsColorMatch(colorMatch);
 
             if(isColorMatch)
                 return true;
             else
-                return false;
+                return false;*/
         }
 
         /// <summary>
@@ -1466,14 +1575,14 @@ namespace Dragons2
         /// <param name="color"></param>
         /// <param name="cellInput"></param>
         /// <returns></returns>
-        private bool[] GetColorMatch(char[] color, DataGridViewImageCell cellInput)
+        private bool[] GetColorMatch(char[] color, PictureBox clickedImage)
         {
             bool[] colorMatchLocal = new bool[4];
 
-            colorMatchLocal[0] = matchUpperLeftColor(color[0], cellInput);
-            colorMatchLocal[1] = matchUpperRightColor(color[1], cellInput);
-            colorMatchLocal[2] = matchLowerLeftColor(color[2], cellInput);
-            colorMatchLocal[3] = matchLowerRightColor(color[3], cellInput);
+            colorMatchLocal[0] = matchUpperLeftColor(color[0], clickedImage);
+            colorMatchLocal[1] = matchUpperRightColor(color[1], clickedImage);
+            colorMatchLocal[2] = matchLowerLeftColor(color[2], clickedImage);
+            colorMatchLocal[3] = matchLowerRightColor(color[3], clickedImage);
 
             return colorMatchLocal;
         }        
@@ -1542,17 +1651,28 @@ namespace Dragons2
         /// <param name="upperLeftColor">Upper left color of card that I want to put on playfield</param>
         /// <param name="cellInput">Cell on the playfield where I want to put the card</param>
         /// <returns></returns>
-        private bool matchUpperLeftColor(char upperLeftColor, DataGridViewImageCell cellInput)
+        private bool matchUpperLeftColor(char upperLeftColor, PictureBox clickedImage)
         {
-            // check whether upper and left cell are blanc or contain card.
-            string NeighborUp = (cellInput.RowIndex - 1 > 0) ? dgvPlayField.Rows[cellInput.RowIndex - 1].Cells[cellInput.ColumnIndex].Tag.ToString() : BlancCardString;            
-            string NeighborLeft = (cellInput.ColumnIndex - 1 > 0) ? dgvPlayField.Rows[cellInput.RowIndex].Cells[cellInput.ColumnIndex - 1].Tag.ToString() : BlancCardString;
+            string NeighborUp = null;
+            string NeighborLeft = null;
 
+            // check whether upper and left cell are blanc or contain card.
+            int yCoorUppercard = Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3)) - 1;
+
+            if(cardsPcb.ContainsKey(clickedImage.Tag.ToString().Substring(0, 3) + yCoorUppercard.ToString()))
+                NeighborUp = cardsPcb[clickedImage.Tag.ToString().Substring(0, 3) + yCoorUppercard.ToString()].Name;
+
+            int xCoorLeftcard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) + 1;
+
+            if(cardsPcb.ContainsKey(xCoorLeftcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)))
+                NeighborUp = cardsPcb[xCoorLeftcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)].Name;
+
+            
             if (NeighborUp == silverDragonString || NeighborLeft == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon                
                 NeighborUp == colorfulDragonString || NeighborLeft == colorfulDragonString)
                 return true;
           
-            if (NeighborUp != BlancCardString)                                  // are the colors same?
+            if (NeighborUp != null)                                  // are the colors same?
             {
                 char upNeighborLowerLeftColor = GlobalMethods.getParticularSplitCardColor(NeighborUp, 2);
 
@@ -1563,7 +1683,7 @@ namespace Dragons2
                 }
             }            
 
-            if (NeighborLeft != BlancCardString)                                  // are the colors same?
+            if (NeighborLeft != null)                                  // are the colors same?
             {
                 char leftNeighborUpperRightColor = GlobalMethods.getParticularSplitCardColor(NeighborLeft, 1);
 
@@ -1699,7 +1819,7 @@ namespace Dragons2
 
             return false;
         }        
-
+        /*
         private bool hasNeighboringCard(DataGridViewImageCell cellInput)
         {
             // check whether upper, loower, left and right cell are blanc or contain card.
@@ -1713,7 +1833,7 @@ namespace Dragons2
                 return true;
             else
                 return false;
-        }
+        }*/
         /// <summary>
         /// Removing card that was put on playground from player´s set
         /// </summary>       
@@ -1983,14 +2103,9 @@ namespace Dragons2
                 return false;
         }
 
-        private bool isPaddingPlayField(int rowIndex, int columnIndex)
-        {
-            int topPadding = dgvPlayField.Rows[rowIndex].Cells[columnIndex].Style.Padding.Top;
-
-            if (topPadding == 5)
-                return true;
-            else
-                return false;
+        private bool isPaddingPlayField(PictureBox clickedImage)
+        {       
+            return (clickedImage.Padding.Top == 5);           
         }
 
         private void SelectCard(int rowIndex, int columnIndex)
@@ -2024,14 +2139,18 @@ namespace Dragons2
         
         private void highlightSilverDragonCard()
         {
+            cardsPcb["silverDragon"].BackColor = Color.Red;
+            cardsPcb["silverDragon"].Padding = newPadding;
+            /*
             dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Style = new DataGridViewCellStyle { Padding = newPadding };
             dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Style.SelectionBackColor = Color.Red;
-            dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Selected = true;
+            dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Selected = true;*/
         }
 
         private void setHighlightOffSilverDragonCard()
         {
-            dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Style = new DataGridViewCellStyle { Padding = noPadding };           
+            cardsPcb["silverDragon"].Padding = noPadding;
+            //dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Style = new DataGridViewCellStyle { Padding = noPadding };           
         }
 
         private void DeselectCard(int oldPaddingRowLocal, int oldPaddingColumnLocal, bool setOldCards)
@@ -2310,7 +2429,12 @@ namespace Dragons2
 
         private void enableClicking()
         {
-            dgvPlayField.Enabled = true;
+            //dgvPlayField.Enabled = true;           
+            foreach(var cards in cardsPcb)
+            {
+                cards.Value.Enabled = true;
+            }          
+
             pbCardDeck.Enabled = true;
             dgvPlayerCards.Enabled = true;
         }
@@ -2324,6 +2448,27 @@ namespace Dragons2
             pb5.Enabled = false;
         }
 
+        private void Image_MouseClick(object sender, MouseEventArgs e)
+        {
+            var clickedImage = sender as PictureBox; //??       
+
+            // Rotate card
+            if(e.Button == MouseButtons.Right)
+            {
+                if(GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction)
+                {
+                    Image image = clickedImage.Image;
+                    image.RotateFlip(RotateFlipType.Rotate180FlipNone);
+
+                    string oldName = clickedImage.Name;
+                   
+                    clickedImage.Image = image;
+                    selectedCardName = GlobalMethods.rotateColorsInCardName(oldName);                        // selectedCardName is assigned to rotated colorName
+                    clickedImage.Name = selectedCardName;            // probably redundant, important is that selectedCardName is assigned to rotated colorName
+                }
+            }
+        }
+        /*
         private void dgvPlayField_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             // Rotate card
@@ -2343,14 +2488,11 @@ namespace Dragons2
                 }
             }
         }
-
+        */
         public void UpgradeNumberOfPlayersLabel(int count)
         {
             label3.Text = count.ToString();
         }
-
-
-
 
         private string[,] GetColorMap()
         {

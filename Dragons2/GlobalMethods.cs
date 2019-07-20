@@ -70,14 +70,16 @@ namespace Dragons2
         /// </summary>
         /// <param name="cellInput">Cell which was chosen for player´s card put on</param>
         /// <returns></returns>
-        public static bool existAnotherCard(DataGridViewImageCell cellInput)
+        public static bool existAnotherCard(PictureBox clickedImage)
         {
-            string dragonCard = cellInput.Tag.ToString().Substring(0, 1);
+            if (clickedImage.Name != null)
+            {
+                string dragonCardFirstLetter = clickedImage.Name.Substring(0, 1);
 
-            if (dragonCard == "4" || dragonCard == "3" || dragonCard == "2" || dragonCard == "1")
-                return true;
-            else
-                return false;
+                return (dragonCardFirstLetter == "4" || dragonCardFirstLetter == "3" || dragonCardFirstLetter == "2" || dragonCardFirstLetter == "1");
+            }
+
+            return false;                           
         }
     }
 }
