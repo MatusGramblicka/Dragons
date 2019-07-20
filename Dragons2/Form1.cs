@@ -138,16 +138,40 @@ namespace Dragons2
         }       
 
         private void putSilverDragon()
-        {
-            
+        {            
             cardsPcb.Add("silverdragon", new PictureBox());
             cardsPcb["silverdragon"].Location = new Point(647, 439);
             cardsPcb["silverdragon"].Image = Image.FromFile(silverDragon);
+            cardsPcb["silverdragon"].Click += Image_Click;
+
+            Controls.Add(cardsPcb["silverdragon"]);
         }
 
         private void addFirst4CardsnextToSilverDragonCard()
         {
-            
+            int silverDragonXCoor = cardsPcb["silverdragon"].Location.X;
+            int silverDragonYCoor = cardsPcb["silverdragon"].Location.Y;
+
+            cardsPcb.Add("99,100", new PictureBox());
+            cardsPcb["99,100"].Location = new Point(silverDragonXCoor - cardsPcb["silverdragon"].Width, silverDragonYCoor);
+            cardsPcb["99,100"].Click += Image_Click;
+
+            cardsPcb.Add("100,99", new PictureBox());
+            cardsPcb["100,99"].Location = new Point(silverDragonXCoor, silverDragonYCoor - cardsPcb["silverdragon"].Height);
+            cardsPcb["100,99"].Click += Image_Click;
+
+            cardsPcb.Add("101,100", new PictureBox());
+            cardsPcb["101,100"].Location = new Point(silverDragonXCoor + cardsPcb["silverdragon"].Width, silverDragonYCoor);
+            cardsPcb["101,100"].Click += Image_Click;
+
+            cardsPcb.Add("100,101", new PictureBox());
+            cardsPcb["100,101"].Location = new Point(silverDragonXCoor, silverDragonYCoor + cardsPcb["silverdragon"].Height);
+            cardsPcb["100,101"].Click += Image_Click;
+
+            Controls.Add(cardsPcb["99,100"]);
+            Controls.Add(cardsPcb["100,99"]);
+            Controls.Add(cardsPcb["101,100"]);
+            Controls.Add(cardsPcb["100,101"]);
         }
 
 
