@@ -369,82 +369,6 @@ namespace Dragons2
             }
         }
 
-        /*
-        private void dgvPlayField_CellClick(object sender, DataGridViewCellEventArgs e)
-        {    
-            if (RedDragonAction.takeFromPlayField_FirstPhaseRedAction)          // take card from playlield when there is red dragon action
-            {
-                RedDragonAction.placeToPlayerSet_SecondPhase = false;   // ban place card to player set from playfield during red action                 
-
-                if (rowRedActCard != 99 && columnRedActCard != 99)
-                {
-                    if (!((e.RowIndex == rowRedActCard) && (e.ColumnIndex == columnRedActCard)))
-                        DeselectCardRedDragonAction(rowRedActCard, columnRedActCard, false);
-                }
-
-                if (isPaddingPlayField(e.RowIndex, e.ColumnIndex))
-                {
-                    DeselectCardRedDragonAction(e.RowIndex, e.ColumnIndex, true);
-                }
-                else
-                {
-                    SelectCardRedDragonAction(e.RowIndex, e.ColumnIndex);
-
-                    rowRedActCard = e.RowIndex;
-                    columnRedActCard = e.ColumnIndex;
-
-                    RedDragonAction.placeToPlayerSet_SecondPhase = true;        // allow place card to player set from playfield during red action                       
-                }
-            }
-            else
-            {
-                if (!BlueDragonAction.BlueDragonActionFlag && !GoldDragonAction.GoldDragonActionFlag)
-                    putCardOnPlayField(e.RowIndex, e.ColumnIndex);
-            } 
-
-            if (GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction)          // take card from playfield when there is green dragon action
-            {  
-                if (rowRedActCard != 99 && columnRedActCard != 99)
-                {
-                    if (!((e.RowIndex == rowRedActCard) && (e.ColumnIndex == columnRedActCard)))
-                        DeselectCardRedDragonAction(rowRedActCard, columnRedActCard, false);
-                }
-
-                if (isPaddingPlayField(e.RowIndex, e.ColumnIndex))
-                {
-                    DeselectCardRedDragonAction(e.RowIndex, e.ColumnIndex, true);
-                }
-                else
-                {
-                    SelectCardRedDragonAction(e.RowIndex, e.ColumnIndex);
-
-                    rowRedActCard = e.RowIndex;
-                    columnRedActCard = e.ColumnIndex;
-
-                             
-                    GreenDragonAction.placeToPlayField_SecondPhaseGreenAction = true;      // allow relocate card from playfield to another place in playfield during green action
-                }
-            }           
-
-            WithoutAction = false;
-
-
-            if (!((RedDragonAction.takeFromPlayField_FirstPhaseRedAction) || (RedDragonAction.placeToPlayerSet_SecondPhase) || (RedDragonAction.ThirdPhase) ||
-                (GreenDragonAction.takeFromPlayField_FirstPhaseGreenAction) || (GreenDragonAction.placeToPlayField_SecondPhaseGreenAction)))
-            {
-                if (successPlacingCardOnPlayGround)
-                {
-                    if(cardsToTakeFromDeck > 0)
-                        pbCardDeck.Enabled = true;
-
-                    
-                    if (cardsToTakeFromDeck == 0)
-                        SetupForNextPlayer();
-                }
-            }            
-        }
-        */
-
         private void SetupForNextPlayer()
         {
             int playerIndex = numberOfTurns % numberOfPlayers;
@@ -1297,20 +1221,7 @@ private void CountDragonColorsOnPlayField(string[,] colorSet)
 
         private bool verifyCardPresentInFileFolder(string fileName)
         {
-            return File.Exists(fileName);
-            /*
-            try
-            {              
-                //Image imageInput = Image.FromFile(fileName);
-                //Image.FromFile(fileName);
-                File.Exists(fileName);
-                return true;
-            }
-            catch(Exception e)
-            {
-                return false;
-            }
-            */
+            return File.Exists(fileName);          
         }
 
         private void UpgradeCounterLabel(int numberOfTurns)
