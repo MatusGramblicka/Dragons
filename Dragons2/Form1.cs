@@ -31,6 +31,8 @@ namespace Dragons2
         readonly string colorfulDragonString = "1jjjj";
         readonly string actionCardString = "a";
         public string rotationBlueAction = null;
+        public string tagOfCardThatWasPlacedOnPlayfield = null;
+
 
         int playerCardsRow = 0;
         int playerCardsColumn = 0;
@@ -138,50 +140,66 @@ namespace Dragons2
         }       
 
         private void putSilverDragon()
-        {            
-            cardsPcb.Add("silverDragon", new PictureBox());
-            cardsPcb["silverDragon"].Location = new Point(647, 439);
-            cardsPcb["silverDragon"].Image = Image.FromFile(silverDragon);
-            cardsPcb["silverDragon"].Name = "silverDragon";
-            cardsPcb["silverDragon"].Tag = "silverDragon";
-            cardsPcb["silverDragon"].Click += Image_Click;
+        {
+            //https://stackoverflow.com/questions/52753517/uwp-c-sharp-how-to-handle-event-for-dynamically-created-buttons-and-control
+            //https://stackoverflow.com/questions/1831732/c-sharp-picturebox-memory-releasing-problem
+            cardsPcb.Add("500500", new PictureBox());
+            cardsPcb["500500"].Location = new Point(647, 439);
+            cardsPcb["500500"].Size = new Size(100, 136);
+            cardsPcb["500500"].Image = Image.FromFile(silverDragon);
+            cardsPcb["500500"].SizeMode = PictureBoxSizeMode.StretchImage;
+            cardsPcb["500500"].Name = "silverDragon";
+            cardsPcb["500500"].Tag = "500500";
+            cardsPcb["500500"].Click += Image_Click;
 
-            Controls.Add(cardsPcb["silverDragon"]);
+            Controls.Add(cardsPcb["500500"]);
         }
 
         private void addFirst4CardsnextToSilverDragonCard()
         {
-            int silverDragonXCoor = cardsPcb["silverDragon"].Location.X;
-            int silverDragonYCoor = cardsPcb["silverDragon"].Location.Y;
+            int silverDragonXCoor = cardsPcb["500500"].Location.X;
+            int silverDragonYCoor = cardsPcb["500500"].Location.Y;
 
-            cardsPcb.Add("099100", new PictureBox());
-            cardsPcb["099100"].Location = new Point(silverDragonXCoor - cardsPcb["silverDragon"].Width, silverDragonYCoor);
-            cardsPcb["099100"].Name = null;
-            cardsPcb["099100"].Tag = "099100";
-            cardsPcb["099100"].Click += Image_Click;
+            cardsPcb.Add("499500", new PictureBox());
+            cardsPcb["499500"].Location = new Point(silverDragonXCoor - cardsPcb["500500"].Width, silverDragonYCoor);
+            cardsPcb["499500"].Size = cardsPcb["500500"].Size;
+            cardsPcb["499500"].SizeMode = PictureBoxSizeMode.StretchImage;
+            cardsPcb["499500"].Name = "";
+            cardsPcb["499500"].BackColor = Color.White;
+            cardsPcb["499500"].Tag = "499500";
+            cardsPcb["499500"].Click += Image_Click;
 
-            cardsPcb.Add("100099", new PictureBox());
-            cardsPcb["100099"].Location = new Point(silverDragonXCoor, silverDragonYCoor - cardsPcb["silverDragon"].Height);
-            cardsPcb["100099"].Name = null;
-            cardsPcb["100099"].Tag = "100099";
-            cardsPcb["100099"].Click += Image_Click;
+            cardsPcb.Add("500499", new PictureBox());
+            cardsPcb["500499"].Location = new Point(silverDragonXCoor, silverDragonYCoor - cardsPcb["500500"].Height);
+            cardsPcb["500499"].Size = cardsPcb["500500"].Size;
+            cardsPcb["500499"].SizeMode = PictureBoxSizeMode.StretchImage;
+            cardsPcb["500499"].Name = "";
+            cardsPcb["500499"].BackColor = Color.White;
+            cardsPcb["500499"].Tag = "500499";
+            cardsPcb["500499"].Click += Image_Click;
 
-            cardsPcb.Add("101100", new PictureBox());
-            cardsPcb["101100"].Location = new Point(silverDragonXCoor + cardsPcb["silverDragon"].Width, silverDragonYCoor);
-            cardsPcb["101100"].Name = null;
-            cardsPcb["101100"].Tag = "101100";
-            cardsPcb["101100"].Click += Image_Click;
+            cardsPcb.Add("501500", new PictureBox());
+            cardsPcb["501500"].Location = new Point(silverDragonXCoor + cardsPcb["500500"].Width, silverDragonYCoor);
+            cardsPcb["501500"].Size = cardsPcb["500500"].Size;
+            cardsPcb["501500"].SizeMode = PictureBoxSizeMode.StretchImage;
+            cardsPcb["501500"].Name = "";
+            cardsPcb["501500"].BackColor = Color.White;
+            cardsPcb["501500"].Tag = "501500";
+            cardsPcb["501500"].Click += Image_Click;
 
-            cardsPcb.Add("100101", new PictureBox());
-            cardsPcb["100101"].Location = new Point(silverDragonXCoor, silverDragonYCoor + cardsPcb["silverDragon"].Height);
-            cardsPcb["100101"].Name = null;
-            cardsPcb["100101"].Tag = "100101";
-            cardsPcb["100101"].Click += Image_Click;
+            cardsPcb.Add("500501", new PictureBox());
+            cardsPcb["500501"].Location = new Point(silverDragonXCoor, silverDragonYCoor + cardsPcb["500500"].Height);
+            cardsPcb["500501"].Size = cardsPcb["500500"].Size;
+            cardsPcb["500501"].SizeMode = PictureBoxSizeMode.StretchImage;
+            cardsPcb["500501"].Name = "";
+            cardsPcb["500501"].BackColor = Color.White;
+            cardsPcb["500501"].Tag = "500501";
+            cardsPcb["500501"].Click += Image_Click;
 
-            Controls.Add(cardsPcb["099100"]);
-            Controls.Add(cardsPcb["100099"]);
-            Controls.Add(cardsPcb["101100"]);
-            Controls.Add(cardsPcb["100101"]);
+            Controls.Add(cardsPcb["499500"]);
+            Controls.Add(cardsPcb["500499"]);
+            Controls.Add(cardsPcb["501500"]);
+            Controls.Add(cardsPcb["500501"]);
         }
 
         
@@ -454,307 +472,392 @@ namespace Dragons2
 
             successPlacingCardOnPlayGround = false;
 
+            dynamicallyCreatePictureboxes(tagOfCardThatWasPlacedOnPlayfield);
+            
 
-
+            /*
             string[,] colorSet = GetColorMap();
 
             CountDragonColorsOnPlayField(colorSet);
+            */
         }
 
-        /// <summary>
-        /// Count the count of colors of dragons on playfield
-        /// </summary>
-        /// <param name="colorSet"></param>
-        private void CountDragonColorsOnPlayField(string[,] colorSet)
+        private void dynamicallyCreatePictureboxes(string tagOfCardThatWasPlacedOnPlayfield)
         {
-            int CardCount = 0;
-            List<int> CardCounts = new List<int>();           
+            int cardThatWasPlacedOnPlayfieldXCoor = cardsPcb[tagOfCardThatWasPlacedOnPlayfield].Location.X;
+            int cardThatWasPlacedOnPlayfieldYCoor = cardsPcb[tagOfCardThatWasPlacedOnPlayfield].Location.Y;
 
-            List<Coordinates> coordinatesOfFollowingCard = new List<Coordinates>();
+            int yCoorUppercard = Int32.Parse(tagOfCardThatWasPlacedOnPlayfield.Substring(3, 3)) - 1;
 
-            List<string> colors = new List<string>() { "r", "o", "v", "n", "b" };        // it will iterate over all colors
-           
-        
-            Dictionary<string, string> dragonCardTransformation = new Dictionary<string, string>()
+            if(!cardsPcb.ContainsKey(tagOfCardThatWasPlacedOnPlayfield.Substring(0, 3) + yCoorUppercard.ToString()))
             {
-                { colors[0], "rrrr" },
-                { colors[1], "oooo" },
-                { colors[2], "vvvv" },
-                { colors[3], "nnnn" },
-                { colors[4], "bbbb" }
-            };
-            Dictionary<string, bool> isThereAtLeastOneCard = new Dictionary<string, bool>()
+                string tagName = tagOfCardThatWasPlacedOnPlayfield.Substring(0, 3) + yCoorUppercard.ToString();
+
+                cardsPcb.Add(tagName, new PictureBox());
+                cardsPcb[tagName].Location = new Point(cardThatWasPlacedOnPlayfieldXCoor, cardThatWasPlacedOnPlayfieldYCoor - cardsPcb["500500"].Height);
+                cardsPcb[tagName].Size = cardsPcb["500500"].Size;
+                cardsPcb[tagName].SizeMode = PictureBoxSizeMode.StretchImage;
+                cardsPcb[tagName].Name = "";
+                cardsPcb[tagName].BackColor = Color.White;
+                cardsPcb[tagName].Tag = tagName;
+                cardsPcb[tagName].Click += Image_Click;
+
+                Controls.Add(cardsPcb[tagName]);
+            }
+
+
+            int xCoorLeftcard = Int32.Parse(tagOfCardThatWasPlacedOnPlayfield.Substring(0, 3)) - 1;
+
+            if(!cardsPcb.ContainsKey(xCoorLeftcard.ToString() + tagOfCardThatWasPlacedOnPlayfield.Substring(3, 3)))
             {
-                { colors[0], false },
-                { colors[1], false },
-                { colors[2], false },
-                { colors[3], false },
-                { colors[4], false }
-            };
+                string tagName = xCoorLeftcard.ToString() + tagOfCardThatWasPlacedOnPlayfield.Substring(3, 3);
 
+                cardsPcb.Add(tagName, new PictureBox());
+                cardsPcb[tagName].Location = new Point(cardThatWasPlacedOnPlayfieldXCoor - cardsPcb["500500"].Width, cardThatWasPlacedOnPlayfieldYCoor);
+                cardsPcb[tagName].Size = cardsPcb["500500"].Size;
+                cardsPcb[tagName].SizeMode = PictureBoxSizeMode.StretchImage;
+                cardsPcb[tagName].Name = "";
+                cardsPcb[tagName].BackColor = Color.White;
+                cardsPcb[tagName].Tag = tagName;
+                cardsPcb[tagName].Click += Image_Click;
 
+                Controls.Add(cardsPcb[tagName]);
+            }
 
+                      
+            int yCoorLowercard = Int32.Parse(tagOfCardThatWasPlacedOnPlayfield.Substring(3, 3)) + 1;
 
-            for(int c = 0; c < colors.Count; c++)
+            if(!cardsPcb.ContainsKey(tagOfCardThatWasPlacedOnPlayfield.Substring(0, 3) + yCoorLowercard.ToString()))
             {
-                string color = colors[c];
+                string tagName = tagOfCardThatWasPlacedOnPlayfield.Substring(0, 3) + yCoorLowercard.ToString();
 
-                bool firstRedColorOccurency = false;
+                cardsPcb.Add(tagName, new PictureBox());
+                cardsPcb[tagName].Location = new Point(cardThatWasPlacedOnPlayfieldXCoor, cardThatWasPlacedOnPlayfieldYCoor + cardsPcb["500500"].Height);
+                cardsPcb[tagName].Size = cardsPcb["500500"].Size;
+                cardsPcb[tagName].SizeMode = PictureBoxSizeMode.StretchImage;
+                cardsPcb[tagName].Name = "";
+                cardsPcb[tagName].BackColor = Color.White;
+                cardsPcb[tagName].Tag = tagName;
+                cardsPcb[tagName].Click += Image_Click;
 
-                bool[,] cardAlreadyChecked = new bool[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
+                Controls.Add(cardsPcb[tagName]);
+            }
+            
 
-                // change silver dragon, colorful dragon and red action card on full red dragon card rrrr
-                for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-                {
-                    for(int column = 0; column < colorSet.GetLength(1); column++)
-                    {
-                        if(colorSet[row, column] == "b")           // if blanc card iterate for next card
-                            continue;
+            int xCoorRightcard = Int32.Parse(tagOfCardThatWasPlacedOnPlayfield.Substring(0, 3)) + 1;
 
-                        if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj")
-                        {
-                            colorSet[row, column] = dragonCardTransformation[color] + "x"; // if card is silver dragon or colorful dragon(first letter 1 is clipped), transform it on full (red, gold, green, black, blue) dragon card + "x" letter for to be able do next transformation
-                        }
-                        else if(colorSet[row, column].Substring(0, 2) == "ar")              // If there is action card, transform it on it on full dragon card + "a"
-                            colorSet[row, column] = dragonCardTransformation[colors[0]] + "a";
-                        else if(colorSet[row, column].Substring(0, 2) == "ao")
-                            colorSet[row, column] = dragonCardTransformation[colors[1]] + "a";
-                        else if(colorSet[row, column].Substring(0, 2) == "av")
-                            colorSet[row, column] = dragonCardTransformation[colors[2]] + "a";
-                        else if(colorSet[row, column].Substring(0, 2) == "an")
-                            colorSet[row, column] = dragonCardTransformation[colors[3]] + "a";
-                        else if(colorSet[row, column].Substring(0, 2) == "ab")
-                            colorSet[row, column] = dragonCardTransformation[colors[4]] + "a";
-                        else if(colorSet[row, column].Length == 5 /*|| colorSet[row, column].Substring(4, 1) == "x"*/)          // transform full dragon card + "x" to the particular color based on iteraton, for example vvvvx change it on for example nnnnx
-                        {
-                            if(colorSet[row, column].Substring(4, 1) == "x")
-                                colorSet[row, column] = dragonCardTransformation[color] + "x";
-                        }
-                    }
-                }
+            if(!cardsPcb.ContainsKey(xCoorRightcard.ToString() + tagOfCardThatWasPlacedOnPlayfield.Substring(3, 3)))
+            {
+                string tagName = xCoorRightcard.ToString() + tagOfCardThatWasPlacedOnPlayfield.Substring(3, 3);
 
-                for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-                {
-                    for(int column = 0; column < colorSet.GetLength(1); column++)
-                    {
-                        bool check3thColorLeftCard = true;
-                        bool check2thColorUpperCard = true;
-                        bool check4thColorRightCard = true;
-                        bool check4thColorLowerCard = true;
+                cardsPcb.Add(tagName, new PictureBox());
+                cardsPcb[tagName].Location = new Point(cardThatWasPlacedOnPlayfieldXCoor + cardsPcb["500500"].Width, cardThatWasPlacedOnPlayfieldYCoor);
+                cardsPcb[tagName].Size = cardsPcb["500500"].Size;
+                cardsPcb[tagName].SizeMode = PictureBoxSizeMode.StretchImage;
+                cardsPcb[tagName].Name = "";
+                cardsPcb[tagName].BackColor = Color.White;
+                cardsPcb[tagName].Tag = tagName;
+                cardsPcb[tagName].Click += Image_Click;
 
-                        if(colorSet[row, column] == "b")           // if blanc card iterate for next card
-                            continue;
-
-
-                        if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
-                        {
-                            string currentCard = colorSet[row, column];
-
-
-                            // 1. color 
-                            string currentCardFirstColor = currentCard.Substring(0, 1);
-
-                            if(currentCardFirstColor == color)
-                            {
-                                if(!firstRedColorOccurency)                             // First card with red color?
-                                {
-                                    CardCount += 1;                                  // Then CardCount must be added
-                                    firstRedColorOccurency = true;
-                                }
-
-                                // left card
-                                check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
-                               
-                                // up card
-                                check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);                               
-                            }
-
-
-                            ///----------------------------------------------------------
-                            // 2. color
-                            string currentCardSecondColor = currentCard.Substring(1, 1);
-
-                            if(currentCardSecondColor == color)
-                            {
-                                if(!firstRedColorOccurency)                             // First card with red color?
-                                {
-                                    CardCount += 1;                                  // Then CardCount must be added
-                                    firstRedColorOccurency = true;
-                                }
-
-                                // up card
-                                upCardLowerRightColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount, check2thColorUpperCard);
-                                
-                                // right card
-                                check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount);                               
-                            }
-
-
-                            ///----------------------------------------------------------
-                            // 3.color
-                            string currentCardThirdColor = currentCard.Substring(2, 1);
-
-                            if(currentCardThirdColor == color)
-                            {
-                                if(!firstRedColorOccurency)                             // First card with red color?
-                                {
-                                    CardCount += 1;                                  // Then CardCount must be added
-                                    firstRedColorOccurency = true;
-                                }
-
-                                // left card
-                                leftCardLowerRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount, check3thColorLeftCard);
-                               
-                                // down card
-                                check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount);                               
-                            }
-
-
-                            ///----------------------------------------------------------
-                            // 4. color
-                            string currentCardFourthColor = currentCard.Substring(3, 1);
-
-                            if(currentCardFourthColor == color)
-                            {
-                                if(!firstRedColorOccurency)                             // First card with red color?
-                                {
-                                    CardCount += 1;                                  // Then CardCount must be added
-                                    firstRedColorOccurency = true;
-                                }
-
-                                // down card
-                                downCardUpperRightColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorLowerCard);
-                                
-                                // right card
-                                rightCardLowerLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorRightCard);                               
-                            }
-
-                            cardAlreadyChecked[row, column] = true;
-                        }
-
-                        while(coordinatesOfFollowingCard.Count != 0)
-                        {
-                            if(!cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column])         // Was the following card already checked? If was dont continue.
-                            {
-
-
-                                check3thColorLeftCard = true;
-                                check2thColorUpperCard = true;
-                                check4thColorRightCard = true;
-                                check4thColorLowerCard = true;
-
-                                string currentCard = colorSet[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column];
-
-                                // 1. color 
-                                string currentCardFirstColor = currentCard.Substring(0, 1);
-
-                                if(currentCardFirstColor == color)
-                                {
-                                    // left card
-                                    check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
-
-                                    // up card
-                                    check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
-                                }
-
-                                ///----------------------------------------------------------
-                                // 2. color
-                                string currentCardSecondColor = currentCard.Substring(1, 1);
-
-                                if(currentCardSecondColor == color)
-                                {
-                                    // up card
-                                    upCardLowerRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount, check2thColorUpperCard);
-
-                                    // right card
-                                    check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount);
-                                }
-
-                                ///----------------------------------------------------------
-                                // 3.color
-                                string currentCardThirdColor = currentCard.Substring(2, 1);
-
-                                if(currentCardThirdColor == color)
-                                {
-                                    // left card
-                                    leftCardLowerRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount, check3thColorLeftCard);
-
-                                    // down card
-                                    check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount);
-                                }
-
-                                ///----------------------------------------------------------
-                                // 4. color
-                                string currentCardFourthColor = currentCard.Substring(3, 1);
-
-                                if(currentCardFourthColor == color)
-                                {
-                                    // down card
-                                    downCardUpperRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorLowerCard);
-
-                                    // right card
-                                    rightCardLowerLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorRightCard);
-                                }
-
-                                cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column] = true;                                
-                            }
-
-                            coordinatesOfFollowingCard.RemoveAt(0);
-
-                            if(coordinatesOfFollowingCard.Count == 0)       // after counting first neighboring group, save the value and null counter
-                            {
-                                CardCounts.Add(CardCount);
-
-                                CardCount = 0;
-
-                                firstRedColorOccurency = false;
-                            }
-                        }
-                    }
-                }
-
-                if(CardCounts.Count != 0)
-                {
-                    CardCount = CardCounts.Max();
-                    CardCounts.Clear();
-                }
-
-                switch(color)
-                {
-                    case "r":
-                        lblRedCardCount.Text = CardCount.ToString();
-                        if(CardCount >= 7)
-                            EndGame(color);
-                        CardCount = 0;
-                        break;
-                    case "o":
-                        lblGoldCardCount.Text = CardCount.ToString();
-                        if(CardCount >= 7)
-                            EndGame(color);
-                        CardCount = 0;
-                        break;
-                    case "v":
-                        lblGreenCardCount.Text = CardCount.ToString();
-                        if(CardCount >= 7)
-                            EndGame(color);
-                        CardCount = 0;
-                        break;
-                    case "n":
-                        lblBlackCardCount.Text = CardCount.ToString();
-                        if(CardCount >= 7)
-                            EndGame(color);
-                        CardCount = 0;
-                        break;
-                    case "b":
-                        lblBlueCardCount.Text = CardCount.ToString();
-                        if(CardCount >= 7)
-                            EndGame(color);
-                        CardCount = 0;
-                        break;
-                }                
-            }           
+                Controls.Add(cardsPcb[tagName]);
+            }
         }
 
+        /*
+/// <summary>
+/// Count the count of colors of dragons on playfield
+/// </summary>
+/// <param name="colorSet"></param>
+private void CountDragonColorsOnPlayField(string[,] colorSet)
+{
+   int CardCount = 0;
+   List<int> CardCounts = new List<int>();           
+
+   List<Coordinates> coordinatesOfFollowingCard = new List<Coordinates>();
+
+   List<string> colors = new List<string>() { "r", "o", "v", "n", "b" };        // it will iterate over all colors
+
+
+   Dictionary<string, string> dragonCardTransformation = new Dictionary<string, string>()
+   {
+       { colors[0], "rrrr" },
+       { colors[1], "oooo" },
+       { colors[2], "vvvv" },
+       { colors[3], "nnnn" },
+       { colors[4], "bbbb" }
+   };
+   Dictionary<string, bool> isThereAtLeastOneCard = new Dictionary<string, bool>()
+   {
+       { colors[0], false },
+       { colors[1], false },
+       { colors[2], false },
+       { colors[3], false },
+       { colors[4], false }
+   };
+
+
+
+
+   for(int c = 0; c < colors.Count; c++)
+   {
+       string color = colors[c];
+
+       bool firstRedColorOccurency = false;
+
+       bool[,] cardAlreadyChecked = new bool[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
+
+       // change silver dragon, colorful dragon and red action card on full red dragon card rrrr
+       for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+       {
+           for(int column = 0; column < colorSet.GetLength(1); column++)
+           {
+               if(colorSet[row, column] == "b")           // if blanc card iterate for next card
+                   continue;
+
+               if(colorSet[row, column] == "silverDragon" || colorSet[row, column] == "jjjj")
+               {
+                   colorSet[row, column] = dragonCardTransformation[color] + "x"; // if card is silver dragon or colorful dragon(first letter 1 is clipped), transform it on full (red, gold, green, black, blue) dragon card + "x" letter for to be able do next transformation
+               }
+               else if(colorSet[row, column].Substring(0, 2) == "ar")              // If there is action card, transform it on it on full dragon card + "a"
+                   colorSet[row, column] = dragonCardTransformation[colors[0]] + "a";
+               else if(colorSet[row, column].Substring(0, 2) == "ao")
+                   colorSet[row, column] = dragonCardTransformation[colors[1]] + "a";
+               else if(colorSet[row, column].Substring(0, 2) == "av")
+                   colorSet[row, column] = dragonCardTransformation[colors[2]] + "a";
+               else if(colorSet[row, column].Substring(0, 2) == "an")
+                   colorSet[row, column] = dragonCardTransformation[colors[3]] + "a";
+               else if(colorSet[row, column].Substring(0, 2) == "ab")
+                   colorSet[row, column] = dragonCardTransformation[colors[4]] + "a";
+               else if(colorSet[row, column].Length == 5 )//|| colorSet[row, column].Substring(4, 1) == "x")          // transform full dragon card + "x" to the particular color based on iteraton, for example vvvvx change it on for example nnnnx
+               {
+                   if(colorSet[row, column].Substring(4, 1) == "x")
+                       colorSet[row, column] = dragonCardTransformation[color] + "x";
+               }
+           }
+       }
+
+       for(int row = 0; row < colorSet.GetLength(0); row++)      // https://stackoverflow.com/questions/4260207/how-do-you-get-the-width-and-height-of-a-multi-dimensional-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+       {
+           for(int column = 0; column < colorSet.GetLength(1); column++)
+           {
+               bool check3thColorLeftCard = true;
+               bool check2thColorUpperCard = true;
+               bool check4thColorRightCard = true;
+               bool check4thColorLowerCard = true;
+
+               if(colorSet[row, column] == "b")           // if blanc card iterate for next card
+                   continue;
+
+
+               if(!cardAlreadyChecked[row, column])         // Was that card already checked? If was dont continue.
+               {
+                   string currentCard = colorSet[row, column];
+
+
+                   // 1. color 
+                   string currentCardFirstColor = currentCard.Substring(0, 1);
+
+                   if(currentCardFirstColor == color)
+                   {
+                       if(!firstRedColorOccurency)                             // First card with red color?
+                       {
+                           CardCount += 1;                                  // Then CardCount must be added
+                           firstRedColorOccurency = true;
+                       }
+
+                       // left card
+                       check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
+
+                       // up card
+                       check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, row, column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);                               
+                   }
+
+
+                   ///----------------------------------------------------------
+                   // 2. color
+                   string currentCardSecondColor = currentCard.Substring(1, 1);
+
+                   if(currentCardSecondColor == color)
+                   {
+                       if(!firstRedColorOccurency)                             // First card with red color?
+                       {
+                           CardCount += 1;                                  // Then CardCount must be added
+                           firstRedColorOccurency = true;
+                       }
+
+                       // up card
+                       upCardLowerRightColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount, check2thColorUpperCard);
+
+                       // right card
+                       check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount);                               
+                   }
+
+
+                   ///----------------------------------------------------------
+                   // 3.color
+                   string currentCardThirdColor = currentCard.Substring(2, 1);
+
+                   if(currentCardThirdColor == color)
+                   {
+                       if(!firstRedColorOccurency)                             // First card with red color?
+                       {
+                           CardCount += 1;                                  // Then CardCount must be added
+                           firstRedColorOccurency = true;
+                       }
+
+                       // left card
+                       leftCardLowerRightcolor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount, check3thColorLeftCard);
+
+                       // down card
+                       check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount);                               
+                   }
+
+
+                   ///----------------------------------------------------------
+                   // 4. color
+                   string currentCardFourthColor = currentCard.Substring(3, 1);
+
+                   if(currentCardFourthColor == color)
+                   {
+                       if(!firstRedColorOccurency)                             // First card with red color?
+                       {
+                           CardCount += 1;                                  // Then CardCount must be added
+                           firstRedColorOccurency = true;
+                       }
+
+                       // down card
+                       downCardUpperRightColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorLowerCard);
+
+                       // right card
+                       rightCardLowerLeftColor(cardAlreadyChecked, row, column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorRightCard);                               
+                   }
+
+                   cardAlreadyChecked[row, column] = true;
+               }
+
+               while(coordinatesOfFollowingCard.Count != 0)
+               {
+                   if(!cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column])         // Was the following card already checked? If was dont continue.
+                   {
+
+
+                       check3thColorLeftCard = true;
+                       check2thColorUpperCard = true;
+                       check4thColorRightCard = true;
+                       check4thColorLowerCard = true;
+
+                       string currentCard = colorSet[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column];
+
+                       // 1. color 
+                       string currentCardFirstColor = currentCard.Substring(0, 1);
+
+                       if(currentCardFirstColor == color)
+                       {
+                           // left card
+                           check3thColorLeftCard = leftCardUpperRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
+
+                           // up card
+                           check2thColorUpperCard = upCardLowerLeftcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFirstColor, ref coordinatesOfFollowingCard, ref CardCount);
+                       }
+
+                       ///----------------------------------------------------------
+                       // 2. color
+                       string currentCardSecondColor = currentCard.Substring(1, 1);
+
+                       if(currentCardSecondColor == color)
+                       {
+                           // up card
+                           upCardLowerRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount, check2thColorUpperCard);
+
+                           // right card
+                           check4thColorRightCard = rightCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardSecondColor, ref coordinatesOfFollowingCard, ref CardCount);
+                       }
+
+                       ///----------------------------------------------------------
+                       // 3.color
+                       string currentCardThirdColor = currentCard.Substring(2, 1);
+
+                       if(currentCardThirdColor == color)
+                       {
+                           // left card
+                           leftCardLowerRightcolor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount, check3thColorLeftCard);
+
+                           // down card
+                           check4thColorLowerCard = downCardUpperLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardThirdColor, ref coordinatesOfFollowingCard, ref CardCount);
+                       }
+
+                       ///----------------------------------------------------------
+                       // 4. color
+                       string currentCardFourthColor = currentCard.Substring(3, 1);
+
+                       if(currentCardFourthColor == color)
+                       {
+                           // down card
+                           downCardUpperRightColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorLowerCard);
+
+                           // right card
+                           rightCardLowerLeftColor(cardAlreadyChecked, coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column, colorSet, currentCardFourthColor, ref coordinatesOfFollowingCard, ref CardCount, check4thColorRightCard);
+                       }
+
+                       cardAlreadyChecked[coordinatesOfFollowingCard[0].Row, coordinatesOfFollowingCard[0].Column] = true;                                
+                   }
+
+                   coordinatesOfFollowingCard.RemoveAt(0);
+
+                   if(coordinatesOfFollowingCard.Count == 0)       // after counting first neighboring group, save the value and null counter
+                   {
+                       CardCounts.Add(CardCount);
+
+                       CardCount = 0;
+
+                       firstRedColorOccurency = false;
+                   }
+               }
+           }
+       }
+
+       if(CardCounts.Count != 0)
+       {
+           CardCount = CardCounts.Max();
+           CardCounts.Clear();
+       }
+
+       switch(color)
+       {
+           case "r":
+               lblRedCardCount.Text = CardCount.ToString();
+               if(CardCount >= 7)
+                   EndGame(color);
+               CardCount = 0;
+               break;
+           case "o":
+               lblGoldCardCount.Text = CardCount.ToString();
+               if(CardCount >= 7)
+                   EndGame(color);
+               CardCount = 0;
+               break;
+           case "v":
+               lblGreenCardCount.Text = CardCount.ToString();
+               if(CardCount >= 7)
+                   EndGame(color);
+               CardCount = 0;
+               break;
+           case "n":
+               lblBlackCardCount.Text = CardCount.ToString();
+               if(CardCount >= 7)
+                   EndGame(color);
+               CardCount = 0;
+               break;
+           case "b":
+               lblBlueCardCount.Text = CardCount.ToString();
+               if(CardCount >= 7)
+                   EndGame(color);
+               CardCount = 0;
+               break;
+       }                
+   }           
+}
+*/
         private void EndGame(string color)
         {
             MessageBox.Show("Winner is " + color + ".", "End of game");
@@ -1260,12 +1363,14 @@ namespace Dragons2
             {
                 if (selectedCardName.Substring(0, 1) != actionCardString)                        // I put action card
                 {
-                    if (clickedImage.Name == null)    // if card is putting on empty card?
+                    if (clickedImage.Name == "")    // if card is putting on empty card?
                     {                        
                         if (isSameColor(clickedImage) || selectedCardName == colorfulDragonString)
                         {
                             putCardOnPlayFieldFinal(clickedImage);
 
+                            // need to save name or tag of picture box for dynamically crete new ones
+                            tagOfCardThatWasPlacedOnPlayfield = clickedImage.Tag.ToString();
                             successPlacingCardOnPlayGround = true;
                         }                        
                     }
@@ -1481,7 +1586,8 @@ namespace Dragons2
 
         private bool isSilverDragonPlace(PictureBox clickedImage)
         {
-            return clickedImage.Name == "silverDragon";
+            //return clickedImage.Name == "silverDragon";
+            return (string)clickedImage.Tag == "500500";    //silverDragon place 500500
         }
 
         private void putCardOnPlayFieldFinal(PictureBox clickedImage/*DataGridViewImageCell cellInput*/)
@@ -1662,17 +1768,17 @@ namespace Dragons2
             if(cardsPcb.ContainsKey(clickedImage.Tag.ToString().Substring(0, 3) + yCoorUppercard.ToString()))
                 NeighborUp = cardsPcb[clickedImage.Tag.ToString().Substring(0, 3) + yCoorUppercard.ToString()].Name;
 
-            int xCoorLeftcard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) + 1;
+            int xCoorLeftcard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) - 1;
 
             if(cardsPcb.ContainsKey(xCoorLeftcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)))
-                NeighborUp = cardsPcb[xCoorLeftcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)].Name;
+                NeighborLeft = cardsPcb[xCoorLeftcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)].Name;
 
-            
-            if (NeighborUp == silverDragonString || NeighborLeft == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon                
+
+            if(NeighborUp == silverDragonString || NeighborLeft == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon                
                 NeighborUp == colorfulDragonString || NeighborLeft == colorfulDragonString)
                 return true;
-          
-            if (NeighborUp != null)                                  // are the colors same?
+
+            if((NeighborUp != null) && (NeighborUp != ""))                                // are the colors same?
             {
                 char upNeighborLowerLeftColor = GlobalMethods.getParticularSplitCardColor(NeighborUp, 2);
 
@@ -1681,18 +1787,18 @@ namespace Dragons2
                     cardsToTakeFromDeck += 1;
                     return true;
                 }
-            }            
+            }
 
-            if (NeighborLeft != null)                                  // are the colors same?
+            if((NeighborLeft != null) && (NeighborLeft != ""))                                 // are the colors same?
             {
                 char leftNeighborUpperRightColor = GlobalMethods.getParticularSplitCardColor(NeighborLeft, 1);
 
-                if (GlobalMethods.checkColorMatch(upperLeftColor, leftNeighborUpperRightColor))
+                if(GlobalMethods.checkColorMatch(upperLeftColor, leftNeighborUpperRightColor))
                 {
                     cardsToTakeFromDeck += 1;
                     return true;
                 }
-            }           
+            }
 
             return false;
         }
@@ -1703,32 +1809,48 @@ namespace Dragons2
         /// <param name="upperLeftColor">Upper left color of card that I want to put on playfield</param>
         /// <param name="cellInput">Cell on the playfield where I want to put the card</param>
         /// <returns></returns>
-        private bool matchUpperRightColor(char upperRightColor, DataGridViewImageCell cellInput)
+        private bool matchUpperRightColor(char upperRightColor, PictureBox clickedImage)
         {
             // check whether upper and left cell are blanc or contain card.
-            string NeighborUp = (cellInput.RowIndex - 1 > 0) ? dgvPlayField.Rows[cellInput.RowIndex - 1].Cells[cellInput.ColumnIndex].Tag.ToString() : BlancCardString;
-            string NeighborRight = (cellInput.ColumnIndex + 1 < dgvPlayField.ColumnCount) ? dgvPlayField.Rows[cellInput.RowIndex].Cells[cellInput.ColumnIndex + 1].Tag.ToString() : BlancCardString;
+            //string NeighborUp = (cellInput.RowIndex - 1 > 0) ? dgvPlayField.Rows[cellInput.RowIndex - 1].Cells[cellInput.ColumnIndex].Tag.ToString() : BlancCardString;
+            //string NeighborRight = (cellInput.ColumnIndex + 1 < dgvPlayField.ColumnCount) ? dgvPlayField.Rows[cellInput.RowIndex].Cells[cellInput.ColumnIndex + 1].Tag.ToString() : BlancCardString;
 
-            if (NeighborUp == silverDragonString || NeighborRight == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon
+
+            string NeighborUp = null;
+            string NeighborRight = null;
+
+            // check whether upper and left cell are blanc or contain card.
+            int yCoorUppercard = Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3)) - 1;
+
+            if(cardsPcb.ContainsKey(clickedImage.Tag.ToString().Substring(0, 3) + yCoorUppercard.ToString()))
+                NeighborUp = cardsPcb[clickedImage.Tag.ToString().Substring(0, 3) + yCoorUppercard.ToString()].Name;
+
+            int xCoorRightcard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) + 1;
+
+            if(cardsPcb.ContainsKey(xCoorRightcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)))
+                NeighborRight = cardsPcb[xCoorRightcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)].Name;
+
+
+            if(NeighborUp == silverDragonString || NeighborRight == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon
                 NeighborUp == colorfulDragonString || NeighborRight == colorfulDragonString)
                 return true;
 
-            if (NeighborUp != BlancCardString)                                  // are the colors same?
+            if((NeighborUp != null) && (NeighborUp != ""))                                 // are the colors same?
             {
                 char upNeighborLowerRightColor = GlobalMethods.getParticularSplitCardColor(NeighborUp, 3);
 
-                if (GlobalMethods.checkColorMatch(upperRightColor, upNeighborLowerRightColor))
+                if(GlobalMethods.checkColorMatch(upperRightColor, upNeighborLowerRightColor))
                 {
                     cardsToTakeFromDeck += 1;
                     return true;
                 }
             }
 
-            if (NeighborRight != BlancCardString)                                  // are the colors same?
+            if((NeighborRight != null) && (NeighborRight != ""))                               // are the colors same?
             {
                 char rightNeighborUpperLeftColor = GlobalMethods.getParticularSplitCardColor(NeighborRight, 0);
 
-                if (GlobalMethods.checkColorMatch(upperRightColor, rightNeighborUpperLeftColor))
+                if(GlobalMethods.checkColorMatch(upperRightColor, rightNeighborUpperLeftColor))
                 {
                     cardsToTakeFromDeck += 1;
                     return true;
@@ -1744,32 +1866,51 @@ namespace Dragons2
         /// <param name="upperLeftColor">Upper left color of card that I want to put on playfield</param>
         /// <param name="cellInput">Cell on the playfield where I want to put the card</param>
         /// <returns></returns>
-        private bool matchLowerLeftColor(char lowerLeftColor, DataGridViewImageCell cellInput)
+        private bool matchLowerLeftColor(char lowerLeftColor, PictureBox clickedImage)
         {
             // check whether upper and left cell are blanc or contain card.
-            string NeighborDown = (cellInput.RowIndex + 1 < dgvPlayField.RowCount) ? dgvPlayField.Rows[cellInput.RowIndex + 1].Cells[cellInput.ColumnIndex].Tag.ToString() : BlancCardString;
-            string NeighborLeft = (cellInput.ColumnIndex - 1 > 0) ? dgvPlayField.Rows[cellInput.RowIndex].Cells[cellInput.ColumnIndex - 1].Tag.ToString() : BlancCardString;
+            //string NeighborDown = (cellInput.RowIndex + 1 < dgvPlayField.RowCount) ? dgvPlayField.Rows[cellInput.RowIndex + 1].Cells[cellInput.ColumnIndex].Tag.ToString() : BlancCardString;
+            //string NeighborLeft = (cellInput.ColumnIndex - 1 > 0) ? dgvPlayField.Rows[cellInput.RowIndex].Cells[cellInput.ColumnIndex - 1].Tag.ToString() : BlancCardString;
 
-            if (NeighborDown == silverDragonString || NeighborLeft == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon
+
+
+            string NeighborDown = null;
+            string NeighborLeft = null;
+
+            // check whether upper and left cell are blanc or contain card.
+            int yCoorLowercard = Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3)) + 1;
+
+            if(cardsPcb.ContainsKey(clickedImage.Tag.ToString().Substring(0, 3) + yCoorLowercard.ToString()))
+                NeighborDown = cardsPcb[clickedImage.Tag.ToString().Substring(0, 3) + yCoorLowercard.ToString()].Name;
+
+            int xCoorLeftcard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) - 1;
+
+            if(cardsPcb.ContainsKey(xCoorLeftcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)))
+                NeighborLeft = cardsPcb[xCoorLeftcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)].Name;
+
+
+
+
+            if(NeighborDown == silverDragonString || NeighborLeft == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon
                 NeighborDown == colorfulDragonString || NeighborLeft == colorfulDragonString)
                 return true;
 
-            if (NeighborDown != BlancCardString)                                  // are the colors same?
+            if((NeighborDown != null) && (NeighborDown != ""))                              // are the colors same?
             {
                 char downNeighborUpperLeftColor = GlobalMethods.getParticularSplitCardColor(NeighborDown, 0);
 
-                if (GlobalMethods.checkColorMatch(lowerLeftColor, downNeighborUpperLeftColor))
+                if(GlobalMethods.checkColorMatch(lowerLeftColor, downNeighborUpperLeftColor))
                 {
                     cardsToTakeFromDeck += 1;
                     return true;
                 }
             }
 
-            if (NeighborLeft != BlancCardString)                                  // are the colors same?
+            if((NeighborLeft != null) && (NeighborLeft != ""))                             // are the colors same?
             {
                 char leftNeighborLowerRightColor = GlobalMethods.getParticularSplitCardColor(NeighborLeft, 3);
 
-                if (GlobalMethods.checkColorMatch(lowerLeftColor, leftNeighborLowerRightColor))
+                if(GlobalMethods.checkColorMatch(lowerLeftColor, leftNeighborLowerRightColor))
                 {
                     cardsToTakeFromDeck += 1;
                     return true;
@@ -1785,32 +1926,50 @@ namespace Dragons2
         /// <param name="upperLeftColor">Upper left color of card that I want to put on playfield</param>
         /// <param name="cellInput">Cell on the playfield where I want to put the card</param>
         /// <returns></returns>
-        private bool matchLowerRightColor(char lowerRightColor, DataGridViewImageCell cellInput)
+        private bool matchLowerRightColor(char lowerRightColor, PictureBox clickedImage)
         {
             // check whether upper and left cell are blanc or contain card.
-            string NeighborDown = (cellInput.RowIndex + 1 < dgvPlayField.RowCount) ? dgvPlayField.Rows[cellInput.RowIndex + 1].Cells[cellInput.ColumnIndex].Tag.ToString() : BlancCardString;
-            string NeighborRight = (cellInput.ColumnIndex + 1 < dgvPlayField.ColumnCount) ? dgvPlayField.Rows[cellInput.RowIndex].Cells[cellInput.ColumnIndex + 1].Tag.ToString() : BlancCardString;
+            // string NeighborDown = (cellInput.RowIndex + 1 < dgvPlayField.RowCount) ? dgvPlayField.Rows[cellInput.RowIndex + 1].Cells[cellInput.ColumnIndex].Tag.ToString() : BlancCardString;
+            //string NeighborRight = (cellInput.ColumnIndex + 1 < dgvPlayField.ColumnCount) ? dgvPlayField.Rows[cellInput.RowIndex].Cells[cellInput.ColumnIndex + 1].Tag.ToString() : BlancCardString;
 
-            if (NeighborDown == silverDragonString || NeighborRight == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon
+
+
+            string NeighborDown = null;
+            string NeighborRight = null;
+
+            // check whether upper and left cell are blanc or contain card.
+            int yCoorLowercard = Int32.Parse(clickedImage.Tag.ToString().Substring(3, 3)) + 1;
+
+            if(cardsPcb.ContainsKey(clickedImage.Tag.ToString().Substring(0, 3) + yCoorLowercard.ToString()))
+                NeighborDown = cardsPcb[clickedImage.Tag.ToString().Substring(0, 3) + yCoorLowercard.ToString()].Name;
+
+            int xCoorRightcard = Int32.Parse(clickedImage.Tag.ToString().Substring(0, 3)) + 1;
+
+            if(cardsPcb.ContainsKey(xCoorRightcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)))
+                NeighborRight = cardsPcb[xCoorRightcard.ToString() + clickedImage.Tag.ToString().Substring(3, 3)].Name;
+
+
+
+            if(NeighborDown == silverDragonString || NeighborRight == silverDragonString ||   // if one these 2 cards is Silver dragon card or Colorful (joker) dragon
                 NeighborDown == colorfulDragonString || NeighborRight == colorfulDragonString)
                 return true;
 
-            if (NeighborDown != BlancCardString)                                  // are the colors same?
+            if((NeighborDown != null) && (NeighborDown != ""))                                // are the colors same?
             {
                 char downNeighborUpperRightColor = GlobalMethods.getParticularSplitCardColor(NeighborDown, 1);
 
-                if (GlobalMethods.checkColorMatch(lowerRightColor, downNeighborUpperRightColor))
+                if(GlobalMethods.checkColorMatch(lowerRightColor, downNeighborUpperRightColor))
                 {
                     cardsToTakeFromDeck += 1;
                     return true;
                 }
             }
 
-            if (NeighborRight != BlancCardString)                                  // are the colors same?
+            if((NeighborRight != null) && (NeighborRight != ""))                                  // are the colors same?
             {
                 char rightNeighborLowerLeftColor = GlobalMethods.getParticularSplitCardColor(NeighborRight, 2);
 
-                if (GlobalMethods.checkColorMatch(lowerRightColor, rightNeighborLowerLeftColor))
+                if(GlobalMethods.checkColorMatch(lowerRightColor, rightNeighborLowerLeftColor))
                 {
                     cardsToTakeFromDeck += 1;
                     return true;
@@ -2097,10 +2256,11 @@ namespace Dragons2
         {
             int topPadding = dgvPlayerCards.Rows[rowIndex].Cells[columnIndex].Style.Padding.Top;
 
-            if (topPadding == 5)
+            return topPadding == 5;
+            /*if (topPadding == 5)
                 return true;
             else
-                return false;
+                return false;*/
         }
 
         private bool isPaddingPlayField(PictureBox clickedImage)
@@ -2139,8 +2299,8 @@ namespace Dragons2
         
         private void highlightSilverDragonCard()
         {
-            cardsPcb["silverDragon"].BackColor = Color.Red;
-            cardsPcb["silverDragon"].Padding = newPadding;
+            cardsPcb["500500"].BackColor = Color.Red;
+            cardsPcb["500500"].Padding = newPadding;
             /*
             dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Style = new DataGridViewCellStyle { Padding = newPadding };
             dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Style.SelectionBackColor = Color.Red;
@@ -2149,7 +2309,7 @@ namespace Dragons2
 
         private void setHighlightOffSilverDragonCard()
         {
-            cardsPcb["silverDragon"].Padding = noPadding;
+            cardsPcb["500500"].Padding = noPadding;
             //dgvPlayField.Rows[rowMiddle].Cells[columnMiddle].Style = new DataGridViewCellStyle { Padding = noPadding };           
         }
 
@@ -2227,12 +2387,15 @@ namespace Dragons2
 
         private void removeCardFromPlayFieldAfterRedDragonAction()
         {
-            Image image = Image.FromFile(blancCard);
+            cardsPcb[rowRedActCard.ToString() + columnRedActCard.ToString()].Padding = noPadding;
+            cardsPcb[rowRedActCard.ToString() + columnRedActCard.ToString()].Image = null;
+            cardsPcb[rowRedActCard.ToString() + columnRedActCard.ToString()].Name = null;
+            //Image image = Image.FromFile(blancCard);
 
-            dgvPlayField.Rows[rowRedActCard].Cells[columnRedActCard].Style = new DataGridViewCellStyle { Padding = noPadding };     // set no padding
+            //dgvPlayField.Rows[rowRedActCard].Cells[columnRedActCard].Style = new DataGridViewCellStyle { Padding = noPadding };     // set no padding
 
-            dgvPlayField.Rows[rowRedActCard].Cells[columnRedActCard].Tag = BlancCardString;
-            dgvPlayField.Rows[rowRedActCard].Cells[columnRedActCard].Value = image;
+            //dgvPlayField.Rows[rowRedActCard].Cells[columnRedActCard].Tag = BlancCardString;
+            //dgvPlayField.Rows[rowRedActCard].Cells[columnRedActCard].Value = image;
         }
 
         /// <summary>
@@ -2493,7 +2656,7 @@ namespace Dragons2
         {
             label3.Text = count.ToString();
         }
-
+        /*
         private string[,] GetColorMap()
         {
             string[,] colorSetLocal = new string[dgvPlayField.RowCount, dgvPlayField.ColumnCount];
@@ -2504,7 +2667,7 @@ namespace Dragons2
                 {
                     DataGridViewImageCell cellPlayerCardsInput = (DataGridViewImageCell)dgvPlayField.Rows[row].Cells[column];
 
-                    if((string)cellPlayerCardsInput.Tag == BlancCardString /*|| (string)cellPlayerCardsInput.Tag != silverDragonString || (string)cellPlayerCardsInput.Tag != colorfulDragonString*/)
+                    if((string)cellPlayerCardsInput.Tag == BlancCardString) //|| (string)cellPlayerCardsInput.Tag != silverDragonString || (string)cellPlayerCardsInput.Tag != colorfulDragonString)
                     {
                         colorSetLocal[row, column] = "b";
                     }
@@ -2522,5 +2685,6 @@ namespace Dragons2
 
             return colorSetLocal;
         }
+        */
     }      
 }

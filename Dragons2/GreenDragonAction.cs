@@ -8,7 +8,7 @@ namespace Dragons2
 {
     class GreenDragonAction
     {
-        public static bool takeFromPlayField_FirstPhaseGreenAction = false;     // taking card from playfield if red action card is used
+        public static bool takeFromPlayField_FirstPhaseGreenAction = false;     // taking card from playfield if green action card is used
         public static bool placeToPlayField_SecondPhaseGreenAction = false;         // relocate card on playfield       
     }
 }
